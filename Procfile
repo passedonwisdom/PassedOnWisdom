@@ -1,1 +1,1 @@
-web: gunicorn passedonwisdom.wsgi — log-file -
+web: gunicorn cc.wsgi — log-file -
