@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block head-content %}
+
+{% load static %}
+<title>Terms and Conditions</title>
+<link rel="stylesheet" type="text/css" href="{% static 'css/termsandconditions.css' %}">
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+<style>
+    #main{
+        width: 90%;
+        margin: 2% auto;
+        min-height: 70vh;
+        background: #efefef;
+        padding: 2% 2% 5% 2%;
+        animation: fade 0.7s linear;
+        font-size: 22px;
+        line-height: 35px;
+        text-align: justify;
+    }
+    ul{
+      padding-left: 20px;
+    }
+    @keyframes fade {
+        0% {
+          opacity: 0
+        }
+        100% {
+          opacity: 1
+        }
+      }
+
+    hr{
+        border-bottom: 0.5px solid #B54D47;
+        margin: -10px auto 0px auto;
+        width: 60%;
+      }
+
+      @media screen and (max-width: 700px){
+        #main{
+          font-size: 16px;
+          line-height: 22px;
+        }
+      }
+
+      #aboutpage {
+        border-bottom: #B54D47 0.2vw solid;
+    }
+</style>
+
+{% endblock %}
+
+{% block body-content %}
+<h1 style="text-align: center;">Terms And Conditions</h1><hr>
+<div id="main">
+    <ul>
+        <li>The Mobile Number and Email ID of a Buyer provided to a Seller must be used for the said purpose only and must not be misused or shared</li>
+        <li>If you post an ad and do not want to sell the product anymore due to any reason, then you must delete your advertisement before someone places an order for the same. Failing to do so may result in banning of your account </li>
+        <li>All products posted by you for selling must be in usable and appropriate condition.</li>
+        <li>Communication of seller with buyer is necessary for the exchange of Books and its Payment and must be done promptly, Email for which will be sent to the Seller as soon as someone places an order</li>
+        <li>Any discrepancy or change of quoted price or any other issue must immediately be brought to our notice</li>
+        <li>Both the seller and the buyer have to confirm the completion of an order from their profile</li>
+        <li>Any Images or Property Displayed on the Website belongs to their Respective Owners
+        <li>Any kind of Handwritten Notes, Techmax or any other Unethical Material Can Not be Sold on Passed On Wisdom
+        </li>
+        <li>Any kind of Mischief or Scam will straigtaway result in permanent blockig of your account</li>
+        <li>Passed On Wisdom Reserves all Rights and the Final Decision will be taken by Us in any Form of Discrepancy</li>
+
+    </ul>
+</div>
+
+{% endblock %}

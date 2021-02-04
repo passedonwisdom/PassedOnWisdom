@@ -1,0 +1,298 @@
+{% extends 'base.html' %}
+
+{% block head-content %}
+
+{% load static %}
+<title>Your Orders</title>
+<link rel="stylesheet" type="text/css" href="{% static 'css/orders.css' %}">
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+<style>
+
+    *{
+        box-sizing: border-box;
+        border: none;
+    }
+    #main{
+        width: 90%;
+        margin: 2% auto;
+        min-height: 85vh;
+        background: #efefef;
+        padding: 2% 2% 8% 2%;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 2% 2%;
+        align-content: start;
+        animation: fade 0.7s linear;
+    }
+    @keyframes fade {
+        0% {
+          opacity: 0
+        }
+        100% {
+          opacity: 1
+        }
+      }
+
+      hr{
+        border-bottom: 0.5px solid #B54D47;
+        margin: 10px auto 15px;
+        width: 80%;
+      }
+    .hr{
+        border-bottom: 0.5px solid #B54D47;
+        margin: -10px auto 0px auto;
+        width: 60%;
+      }
+    
+    .inner{
+        margin: 1%;
+        background: #fff;
+        min-height: 35vh;
+        padding: 4%;
+        box-shadow: 2px 0 5px 0 #bbb;
+    }
+    .inner:hover{
+        transition: transform 0.2s linear;
+        transform: scale(1.01);
+    }
+    #imageSpan{
+        width: 100%;
+        height: 25vh !important;
+        position: relative;
+        padding: 0;
+      }
+      #imageSpan > img{
+        max-height: 70%;
+        max-width: 90%;
+        width: auto;
+        height: auto;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+      }
+      #accountpage {
+        border-bottom: #B54D47 0.2vw solid;
+      }
+
+/*  COMMON CSS FOR ADVERTISEMENTS AND ORDERS   */
+
+.type{
+    font-weight: 900;
+    font-size: 22px;
+    color: #B54D47;
+}
+.price{
+    float: right;
+    margin-right: 10px;
+    font-weight: 750;
+    color: #000;
+    font-size: 20px;
+}
+.title{
+    font-weight: 600;
+    font-size: 18px;
+    color: #333;
+}
+.others{
+    font-weight: 600;
+    font-size: 16px;
+    color: #666;
+}
+.description{
+    font-weight: 500;
+    font-size: 16px;
+    color: #666;
+}
+.date{
+    font-weight: 600;
+    font-size: 16px;
+    color: #B54D47;
+}
+.muted{
+    font-weight: 600;
+    font-size: 14px;
+    color: #999;
+}
+.status{
+    font-weight: 600;
+    font-size: 16px;
+    color: green;
+}
+button{
+    padding: 5px 10px;
+    border: 2px solid #B54D47;
+    border-radius: 20px;
+    background-color: #fff;
+    color: #B54D47;
+    font-size: 16px;
+    margin: 0.2vw auto;
+    bottom: 0 !important;
+}
+button:hover, button:active{
+    border: 2px solid #B54D47;
+    background-color: #B54D47;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s linear;
+}
+
+/*  MEDIA QUERIES  */
+
+@media screen and (max-width: 1200px){
+    #main{
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+@media screen and (max-width: 991px){
+    .inner{
+        zoom: 0.9;
+    }
+}
+@media screen and (max-width: 700px){
+    #main{
+        grid-template-columns: 1fr 1fr;
+        padding-bottom: 30%;
+    }
+}
+@media screen and (max-width: 465px){
+    #main{
+        grid-template-columns: 100%;
+        padding-bottom: 50%;
+    }
+    .inner{
+        zoom: 0.8;
+        grid-column: 1/2;
+    }
+}
+</style>
+
+{% endblock %}
+
+{% block body-content %}
+<h1 style="text-align: center;">Your Orders</h1><hr class="hr">
+<div id="main">
+
+    <!-- Book Card -->
+    {% for obook in orderedBooks %}
+    <div class="inner" id="bookDiv">
+        <span class="type">Book</span>
+        <span class="price" style="float: right; margin-right: 20px;">Rs. {{obook.book.price}}</span><br><br>
+        <span class="title">{{obook.book.bookName}}</span><br><br>
+        <span class="others">{{obook.book.author}}</span><br><br>
+        <span class="description">{{obook.book.description}}</span><br><br>
+        <span class="date">Date of Purchase: {{obook.timestamp}}</span><br><br>
+        {% if obook.book.status == 'inProcess' and obook.flag_customer_complete == '0' %}
+            <span class="muted">If you have successfully received the book at the mentioned price and the order is complete, press the button below</span><br><br>
+        {% elif obook.book.status == 'sold' or obook.book.status == 'inProcess' and obook.flag_customer_complete == '1' %}
+            <span class="muted">The Trasaction is Complete from Your End. Thank You for using Passed On Wisdom :)</span><br><br>
+        {% endif %}
+
+        <center>
+            <span class="status">Status: {{obook.book.status}}</span><br><br>
+            {% if obook.book.status == 'inProcess' and obook.flag_customer_complete == '0' %}
+                <a href="completedBook/{{obook.book.bookId}}/customer"><button class="complete-button" onclick="return complete()">Order Complete?</button></a>
+            {% endif %}
+        </center>
+        
+    </div>
+    {% endfor %}
+
+    <!-- Boiler Suit Card -->
+    {% for osuit in orderedSuits %}
+    <div class="inner" id="suitDiv">
+        <span class="type">Boiler Suit</span>
+        <span class="price" style="float: right; margin-right: 20px;">Rs. 300</span><br><br>
+        <span class="others">Variant - {{osuit.suit.gender}}</span><br><br>
+        <span class="others">Size - {{osuit.suit.size}}</span><br><br>
+        <span class="description"> {{osuit.suit.description}}</span><br><br>
+        <span class="date">Date of Purchase:  {{osuit.timestamp}}</span><br><br>
+        {% if osuit.suit.status == 'inProcess' and osuit.flag_customer_complete == '0' %}
+            <span class="muted">If you have successfully received the Boiler Suit at the mentioned price and the order is complete, press the button below</span><br><br>
+        {% elif osuit.suit.status == 'sold' or osuit.suit.status == 'inProcess' and osuit.flag_customer_complete == '1' %}
+            <span class="muted">The Trasaction is Complete from Your End. Thank You for using Passed On Wisdom :)</span><br><br>
+        {% endif %}
+        
+        <center>
+            <span class="status">Status: {{osuit.suit.status}}</span><br><br>
+            {% if osuit.suit.status == 'inProcess' and osuit.flag_customer_complete == '0' %}
+                <a href="completedSuit/{{osuit.suit.suitId}}/customer"><button class="complete-button" onclick="return complete()">Order Complete?</button></a>
+            {% endif %}
+        </center>
+    </div>
+    {% endfor %}
+
+    <!-- Lab Coat Card -->
+    {% for ocoat in orderedCoats %}
+    <div class="inner" id="coatDiv">
+        <span class="type">Lab Coat</span>
+        <span class="price" style="float: right; margin-right: 20px;">Rs. 180</span><br><br><br>
+        <span class="others">Size - {{ocoat.coat.size}}</span><br><br><br>
+        <span class="description">{{ocoat.coat.description}}</span><br><br>
+        <span class="date">Date of Purchase: {{ocoat.timestamp}}</span><br><br>
+        {% if ocoat.coat.status == 'inProcess' and ocoat.flag_customer_complete == '0' %}
+            <span class="muted">If you have successfully received the Lab Coat at the mentioned price and the order is complete, press the button below</span><br><br>
+        {% elif ocoat.coat.status == 'sold' or ocoat.coat.status == 'inProcess' and ocoat.flag_customer_complete == '1' %}
+            <span class="muted">The Trasaction is Complete from Your End. Thank You for using Passed On Wisdom :)</span><br><br>
+        {% endif %}
+        
+        <center>
+            <span class="status">Status: {{ocoat.coat.status}}</span><br><br>
+            {% if ocoat.coat.status == 'inProcess' and ocoat.flag_customer_complete == '0' %}
+                <a href="completedCoat/{{ocoat.coat.coatId}}/customer"><button class="complete-button" onclick="return complete()">Order Complete?</button></a>
+            {% endif %}
+        </center>
+    </div>
+    {% endfor %}
+
+    <!-- Calculator Card -->
+    {% for ocalculator in orderedCalculators %}
+    <div class="inner" id="calculatorDiv">
+        <span class="type">Calculator</span>
+        <span class="price" style="float: right; margin-right: 20px;">Rs. 700</span><br><br><br>
+        <span class="others">Model: Casio FX-991 ES Plus</span><br><br><br>
+        <span class="description">{{ocalculator.calculator.description}}</span><br><br>
+        <span class="date">Date of Purchase: {{ocalculator.timestamp}}1</span><br><br>
+        {% if ocalculator.calculator.status == 'inProcess' and ocalculator.flag_customer_complete == '0' %}
+            <span class="muted">If you have successfully received the Calculator at the mentioned price and the order is complete, press the button below</span><br><br>
+        {% elif ocalculator.calculator.status == 'sold' or ocalculator.calculator.status == 'inProcess' and ocalculator.flag_customer_complete == '1' %}
+            <span class="muted">The Trasaction is Complete from Your End. Thank You for using Passed On Wisdom :)</span><br><br>
+        {% endif %}
+        
+        <center>
+            <span class="status">Status: {{ocalculator.calculator.status}}</span><br><br>
+            {% if ocalculator.calculator.status == 'inProcess' and ocalculator.flag_customer_complete == '0' %}
+                <a href="completedCalculator/{{ocalculator.calculator.calculatorId}}/customer"><button class="complete-button" onclick="return complete()">Order Complete?</button></a>
+            {% endif %}
+        </center>
+    </div>
+    {% endfor %}
+
+    <!-- ToolKit Card -->
+    {% for otk in orderedToolkits %}
+    <div class="inner" id="toolkitDiv">
+        <span class="type">Tool Kit</span>
+        <span class="price" style="float: right; margin-right: 20px;">Rs. 120</span><br><br><br>
+        <span class="others">Contents: 2 Blades, 1 Steel Ruler, 1 White Pencil</span><br><br><br>
+        <span class="date">Date of Purchase: {{otk.timestamp}}</span><br><br>
+
+        <!-- IF STATUS EXISTS FOR TOOLKIT, ADD APPROPRIATE STATUS PRINT AND MESSAGE HERE -->
+
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    function complete(){
+        if (confirm("Are you Sure the Order is Complete?")) {
+            return true;
+          } else {
+            return false;
+          }
+    }
+</script>
+
+{% endblock %}

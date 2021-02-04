@@ -1,0 +1,862 @@
+{% extends 'base.html' %}
+
+{% block head-content %}
+
+{% load static %}
+<title>Sell a Product</title>
+
+<style>
+  *:focus{
+    outline: none !important;
+  }
+  #sellpage {
+    border-bottom: #B54D47 0.2vw solid;
+  }
+  #main{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+  }
+  @keyframes fade {
+    0% {
+      opacity: 0
+    }
+    100% {
+      opacity: 1
+    }
+  }
+  .tab {
+    float: left;
+    background-color: #fff;
+    width: 20%;
+    height: 50vh;
+    padding-top: 5vh;
+    position: fixed;
+    top: 5vh;
+    animation: fade 0.7s linear;
+  }
+  .tab button {
+    display: block;
+    background-color: inherit;
+    color: #333;
+    padding: 12px 16px;
+    width: 100%;
+    border: none;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 18px;
+  }
+
+  .tab button:hover {
+    background-color: #eee;
+  }
+  .tab button.active {
+    background-color: #ddd;
+    color: #B54D47;
+  }
+  .tabcontent {
+    width: 65%;
+    min-height: 120vh;
+    background-color: #fff;
+    margin: 2vw 5% 3vw 25%;
+    overflow: hidden;
+    display: block;
+    padding: 1% 2%;
+    animation: fade 0.7s linear;
+  }
+
+  hr {
+    border-top: 0.1px solid #B54D47;
+    width: 60%;
+    margin: 3% auto 5% auto;
+  }
+
+  input {
+    width: 100%;
+    display: block;
+    font-size: 16px;
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid #aaa;
+    color: #666;
+    margin-bottom: 2vw;
+    -moz-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    -webkit-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+    background-color: #fff;
+  }
+  input:focus {
+    outline: 0;
+    border-color: #B54D47;
+  }
+  label {
+    font-size: 18px;
+    font-weight: bold;
+    color: #666;
+    margin-bottom: 10px;
+  }
+  .button {
+    width: 100%;
+    border: 0;
+    outline: none;
+    border-radius: 0;
+    padding: 10px 0;
+    font-size: 18px;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: 3px solid #B54D47;
+    border-radius: 5px;
+    color: #B54D47;
+    cursor: pointer;
+    -moz-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    -webkit-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+  }
+  .button:hover, .button:focus {
+    background: #B54D47;
+    color: white;
+  }  
+  ::placeholder {
+    opacity: 0.7;
+  }
+  select {
+    color: #666;
+    border: 1px solid #aaa;
+  }
+  .muted-text {
+    color: #aaa;
+    font-size: 14px;
+    margin: 1% auto;
+  }
+
+
+  /* MODAL CSS */
+
+  .container {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.8);
+    padding-top: 75px;
+    animation: fadeEffect 0.5s;
+    zoom: 0.9;
+  }
+  
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: #fff;
+    margin: 2% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    width: 60%; /* Could be more or less, depending on screen size */
+    padding: 5px 2% 5px 2%;
+  }
+   
+  /* The Modal Close Button (x) */
+  .close {
+    position: absolute;
+    right: 35px;
+    top: 15px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #fff;
+    line-height: 60px;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #f44336;
+    cursor: pointer;
+    transform: rotateZ(360deg);
+    transition: transform 0.2s linear;
+  }
+  
+  /* Clear floats */
+  .clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  
+  .modalHeading{
+    font-size: 30px;
+    margin: 0 auto 25px auto;
+    text-align: left;
+  }
+  .container > hr{
+    border-bottom: 0.5px solid #B54D47;
+          margin: 25px auto;
+  }
+  .modalText{
+    font-size: 18px;
+    text-align: left;
+    margin: 25px auto;
+  }
+  
+  .cancelbtn{
+    margin: 12px 20px 0px 20px;
+    padding: 9px;
+    width: 20%;
+    font-size: 18px;
+    float: right;
+    border: 2px solid #B54D47;
+    border-radius: 30px;
+    background-color: #fff;
+    color: #B54D47;
+  }
+  .confirmbtn {
+    margin: 12px 20px 0px 20px;
+    padding: 9px;
+    width: 20%;
+    font-size: 18px;
+    float: right;
+    border: 2px solid #20a000;
+    border-radius: 30px;
+    background-color: #fff;
+    color: #20a000;
+  }
+   .cancelbtn:hover, .cancelbtn:active{
+    border: 2px solid #B54D47;
+          background-color: #B54D47;
+          color: #fff;
+          cursor: pointer;
+          transition: background-color 0.3s linear;
+  }
+  .confirmbtn:hover, .confirmbtn:active{
+    border: 2px solid #20a000;
+          background-color: #20a000;
+          color: #fff;
+          cursor: pointer;
+          transition: background-color 0.3s linear;
+  }
+
+  .radio-label{
+    display: inline-block;
+    outline: none;
+    padding: 5px 5px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    border: 3px solid #2255a4;
+    border-radius: 7px;
+    color: #2255a4;
+    cursor: pointer;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    letter-spacing: 2px;
+    margin: auto 4px 10px 4px;
+    text-align: center;
+    min-width: 30px !important;
+    zoom: 0.9;
+  }
+  .radio-label:hover{background: #2255a4; color: #fff;}
+  
+  input[type="radio"] {
+    display: none;
+  }
+  
+  input:checked+label{
+    background: #2255a4 !important; color: #fff !important;}
+  
+    #warning{
+      margin: 5%;
+      padding: 5%;
+      color: #B54D47;
+      border: 3px solid #B54D47;
+      border-radius: 25px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+  /* MEDIA QUERIES */
+
+  @media screen and (max-width: 1045px) {
+    h1 {
+      font-size: 21px;
+    }
+  }
+
+  @media screen and (max-width: 700px) {
+    .tab {
+      top: 25vh;
+      zoom: 0.9;
+      width: 30%;
+    }
+    .tabcontent {
+      zoom: 0.8;
+      width: 55%;
+      margin-left: 35%;
+    }
+    #main{
+      min-height: 75vh;
+    }
+    .modal{
+      zoom: 0.8;
+    }
+    .modal-content{
+      width: 80%;
+    }
+    .cancelbtn{
+      border-radius: 25px;
+    }
+    .confirmbtn {
+      border-radius: 25px;
+    }
+  }
+
+  @media screen and (max-width: 440px) {
+    .tab {
+      zoom: 0.8;
+      top: 15vh;
+    }
+    .tabcontent {
+      zoom: 0.75;
+      margin-left: 32%;
+    }
+    .modal-content{
+      width: 80%;
+      zoom: 0.9;
+    }
+    .modalHeading{
+      font-size: 25px;
+      margin: 0 auto 20px auto;
+    }
+    .container > hr{
+      margin: 20px auto;
+    }
+    .modalText{
+      margin: 20px auto;
+    }
+    
+    .cancelbtn{
+      margin: 12px 20px 0px 20px;
+      padding: 12px;
+      width: 25%;
+    }
+    .confirmbtn {
+      margin: 12px 20px 0px 20px;
+      padding: 12px;
+      width: 25%;
+    }
+  }
+
+  @media screen and (max-width: 340px) {
+    .tab {
+      zoom: 0.7;
+    }
+    .tabcontent {
+      zoom: 0.65;
+    }
+    .modal-content{
+      zoom: 1.2;
+      width: 80%;
+    }
+  
+  }
+
+</style>
+
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+{% endblock %}
+
+{% block body-content %}
+<div id="main">
+<div class="tab">
+  <h1 style="text-align: center;" id="side-heading">Sell a Product</h1>
+<button class="tablinks" onclick="openCity(event, 'books')" id="defaultOpen">Books</button>
+<button class="tablinks" onclick="openCity(event, 'suit')">Boiler Suit</button>
+<button class="tablinks" onclick="openCity(event, 'coat')">Lab Coat</button>
+<button class="tablinks" onclick="openCity(event, 'calculator')">Calculator</button>
+<div id="warning">Colleges are Shut due to COVID, Make Sure You Co-ordinate with the Buyer of your BOOK to Meet Somewhere Common and Complete The Transaction. For Other Products, We will collect them from you.</div>
+</div>
+
+<div id="books" class="tabcontent">
+
+  <form action="sellBook" method="POST" enctype="multipart/form-data" class="forms">
+    {% csrf_token %}
+    <h2 style="text-align: center;">Post an Advertisement of a Book</h2>
+    <hr>
+    
+    <div>
+      <label for="book-name">Book Name: </label>
+      <input type="text" name="book-name" id="book-name" placeholder="Modern Digital Electronics" required /><br>
+
+      <label for="book-author">Book Author: <p class="muted-text">In case of Multiple Authors, Add Names of All the Authors Separated by Commas</p></label>
+      <input type="text" name="book-author" id="book-author" placeholder="R. P. Jain" required /><br>
+
+      <label for="book-price">Book Price: <p class="muted-text">Enter Price at which you want to Sell this Book</p></label>
+      <input type="number" name="book-price" id="book-price" placeholder="500" required /><br>
+
+      <label for="book-description">Book Description/Condition: </label>
+      <input type="text" name="book-description" id="book-description" placeholder="One or two pages are missing..." required /><br>
+
+      <label for="book-image">Book Image: <p class="muted-text">Upload an Image of the Front Cover of the Book</p></label>
+      <input type="file" name="book-image" id="book-image" accept="image/*" id="bookImage" required><br>
+
+      <input type="checkbox" name="book-tnc" id="book-tnc" value="tick" style="display:inline; width: 5%; zoom: 1.5;" required>I Agree to the <a href="{% url 'tnc' %}">Terms and Conditions</a> of PassedOnWisdom and Assure that the Book is in Usable Condition
+      <br><br>
+
+      <button class="button" type="button" onclick="book()" >Submit</button></span>
+    </div>
+
+    <!-- Modal for Books -->
+
+    <div id="book-modal" class="modal" name="modalname">
+      <span onclick="document.getElementById('book-modal').style.display='none'" class="close" title="Close Modal">X</span>
+      <div class="modal-content" action="#">
+        <div class="container">
+          <h1 class="modalHeading">Are you Sure You want to Sell this Book?</h1><hr>
+          <p class="modalText">On Clicking "Sell", Your Ad will be Reviewd by Us and Posted on the Website. When a Buyer Requests to Buy your Book, You will be Notified via Email and You can View the Buyer's Details on the "Advertisements" Page under My Account. Contact Him/Her and Sell them the Book at the Price Mentioned by You.</p>
+          <h3 id="book-name-modal"></h3>
+          <h3 id="book-author-modal"></h3>
+          <h3 id="book-description-modal"></h3>
+          <h3 id="book-price-modal"></h3>
+          
+          <div class="clearfix">
+            {% if user.is_authenticated %}
+            <button type="submit" onclick="document.getElementById('book-modal').style.display='none'" class="confirmbtn">Sell</button>
+            {% else %}
+            <a href="{% url 'login' %}"><button type="button" class="confirmbtn">Login</button></a>
+            {% endif %} 
+            <button type="button" onclick="document.getElementById('book-modal').style.display='none'" class="cancelbtn">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+</div>
+
+
+<div id="suit" class="tabcontent">
+
+  <form action="sellSuit" method="POST" enctype="multipart/form-data" class="forms">
+    {% csrf_token %}
+    <h2 style="text-align: center;">Post an Advertisement of a Boiler Suit</h2>
+    <hr>
+    <div>
+      <label for="suit-gender">Boiler Suit Variant: <p class="muted-text">Select "Male" for Full Length Boiler Suit and "Female" for Half Length Boiler Suit</p></label><br>
+      <input type="radio" name="suit-gender" value="Male" id="suit-gender-m" required onchange="suitPrice()">
+      <label for="suit-gender-m" class="radio-label">Male</label>
+      <input type="radio" name="suit-gender" value="Female" id="suit-gender-f" required onchange="suitPrice()">
+      <label for="suit-gender-f" class="radio-label">Female</label><br><br><br>
+
+      <label for="suit-size">Boiler Suit Size: </label><br><br>
+      <input type="radio" name="suit-size" value="S" id="suit-size-s" required>
+      <label for="suit-size-s" class="radio-label">S</label>
+      <input type="radio" name="suit-size" value="M" id="suit-size-m" required>
+      <label for="suit-size-m" class="radio-label">M</label>
+      <input type="radio" name="suit-size" value="L" id="suit-size-l" required>
+      <label for="suit-size-l" class="radio-label">L</label>
+      <input type="radio" name="suit-size" value="XL" id="suit-size-xl" required>
+      <label for="suit-size-xl" class="radio-label">XL</label>
+      <input type="radio" name="suit-size" value="XXL" id="suit-size-xxl" required>
+      <label for="suit-size-xxl" class="radio-label">XXL</label><br><br><br>
+
+      <label for="suit-price">Boiler Suit Price: <p class="muted-text">This is the Amount You will get for Your Boiler Suit</p></label>
+      <h3><span id="suit-price">Rs. 0</span></h3><br><br>
+
+      <label for="suit-description">Boiler Suit Description/Condition: </label>
+      <input type="text" name="suit-description" id="suit-description" placeholder="Stain on the front side...." required /><br>
+
+      <input type="checkbox" name="suit-tnc" id="suit-tnc" value="tick" style="display:inline; width: 5%; zoom: 1.5;" required>I Agree to the <a href="{% url 'tnc' %}">Terms and Conditions</a> of PassedOnWisdom and Assure that the Boiler Suit is in Usable Condition
+      <br><br>
+
+      <button class="button" type="button" onclick="suit()" >Submit</button></span>
+    </div>
+
+    <!-- Modal for Boiler Suit -->
+
+    <div id="suit-modal" class="modal" name="modalname">
+      <span onclick="document.getElementById('suit-modal').style.display='none'" class="close" title="Close Modal">X</span>
+      <div class="modal-content" action="#">
+        <div class="container">
+          <h1 class="modalHeading">Are you Sure You want to Sell the Boiler Suit?</h1><hr>
+          <p class="modalText">On Clicking "Sell", Your Boiler Suit will be Added to our Database. When a Buyer Requests to Buy a Boiler Suit with your Size and Variant, You will be Notified via Email and We will Contact You to Collect the Boiler Suit from You at the Mentioned Price.</p>
+          <h3 id="suit-gender-modal"></h3>
+          <h3 id="suit-size-modal"></h3>
+          <h3 id="suit-description-modal"></h3>
+          <h3 id="suit-price-modal"></h3>
+          
+          <div class="clearfix">
+            {% if user.is_authenticated %}
+            <button type="submit" onclick="document.getElementById('suit-modal').style.display='none'" class="confirmbtn">Sell</button>
+            {% else %}
+            <a href="{% url 'login' %}"><button type="button" class="confirmbtn">Login</button></a>
+            {% endif %} 
+            <button type="button" onclick="document.getElementById('suit-modal').style.display='none'" class="cancelbtn">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+
+</div>
+
+
+
+
+<div id="coat" class="tabcontent">
+
+  <form action="sellCoat" method="POST" enctype="multipart/form-data" class="forms">
+    {% csrf_token %}
+    <h2 style="text-align: center;">Post an Advertisement of a Lab Coat</h2>
+    <hr>
+    <div>
+      <label for="coat-size">Lab Coat Size: </label><br><br>
+      <input type="radio" name="coat-size" value="S" id="coat-size-s" required>
+      <label for="coat-size-s" class="radio-label">S</label>
+      <input type="radio" name="coat-size" value="M" id="coat-size-m" required>
+      <label for="coat-size-m" class="radio-label">M</label>
+      <input type="radio" name="coat-size" value="L" id="coat-size-l" required>
+      <label for="coat-size-l" class="radio-label">L</label>
+      <input type="radio" name="coat-size" value="XL" id="coat-size-xl" required>
+      <label for="coat-size-xl" class="radio-label">XL</label>
+      <input type="radio" name="coat-size" value="XXL" id="coat-size-xxl" required>
+      <label for="coat-size-xxl" class="radio-label">XXL</label><br><br><br>
+
+      <label for="coat-price">Lab Coat Price: <p class="muted-text">This is the Amount You will get for Your Boiler Suit</p></label>
+      <h3><span id="coat-price">Rs. 150</span></h3><br><br>
+
+      <label for="coat-description">Lab Coat Description/Condition: </label>
+      <input type="text" name="coat-description" id="coat-description" placeholder="Stain on the front side...." required /><br>
+
+      <input type="checkbox" name="coat-tnc" id="coat-tnc" value="tick" style="display:inline; width: 5%; zoom: 1.5;" required>I Agree to the <a href="{% url 'tnc' %}">Terms and Conditions</a> of PassedOnWisdom and Assure that the Lab Coat is in Usable Condition
+      <br><br>
+
+      <button class="button" type="button" onclick="coat()" >Submit</button></span>
+    </div>
+
+    <!-- Modal for Lab Coat -->
+
+    <div id="coat-modal" class="modal" name="modalname">
+      <span onclick="document.getElementById('coat-modal').style.display='none'" class="close" title="Close Modal">X</span>
+      <div class="modal-content" action="#">
+        <div class="container">
+          <h1 class="modalHeading">Are you Sure You want to Sell the Lab Coat?</h1><hr>
+          <p class="modalText">On Clicking "Sell", Your Lab Coat will be Added to our Database. When a Buyer Requests to Buy a Lab Coat with your Size, You will be Notified via Email and We will Contact You to Collect the Lab Coat from You at the Mentioned Price.</p>
+          <h3 id="coat-size-modal"></h3>
+          <h3 id="coat-description-modal"></h3>
+          <h3 id="coat-price-modal">Price: Rs. 150</h3>
+          
+          <div class="clearfix">
+            {% if user.is_authenticated %}
+            <button type="submit" onclick="document.getElementById('coat-modal').style.display='none'" class="confirmbtn">Sell</button>
+            {% else %}
+            <a href="{% url 'login' %}"><button type="button" class="confirmbtn">Login</button></a>
+            {% endif %} 
+            <button type="button" onclick="document.getElementById('coat-modal').style.display='none'" class="cancelbtn">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+</div>
+
+
+<div id="calculator" class="tabcontent">
+
+  <form action="sellCalculator" method="POST" enctype="multipart/form-data" class="forms">
+    {% csrf_token %}
+    <h2 style="text-align: center;">Post an Advertisement of a Calculator</h2>
+    <hr>
+    <div>
+      <label for="calculator-model">Calculator Model: <p class="muted-text">Currently We are Accepting only Casio FX-991 ES Plus Scientific Calculator</p></label><br>
+      <input type="radio" name="calculator-model" value="Casio FX-991 ES Plus" id="calculator-model-991" required>
+      <label for="calculator-model-991" class="radio-label">Casio FX-991 ES Plus</label>
+      <input type="radio" name="calculator-model" value="Others" id="calculator-model-other" required disabled>
+      <label for="calculator-model-other" class="radio-label" style="color: grey; border-color: grey; cursor: not-allowed; background: #fff;">Others</label><br><br><br>
+
+      <label for="calculator-price">Calculator Price: <p class="muted-text">This is the Amount You will get for Your Calculator</p></label>
+      <h3><span id="calculator-price">Rs. 600</span></h3><br>
+
+      <label for="calculator-description">Calculator Description/Condition: <p class="muted-text">Kindly Enter the Year of Purchase along with the Description/Condition</p></label>
+      <input type="text" name="calculator-description" id="calculator-description" placeholder="% Key Not Working...." required /><br>
+
+      <input type="checkbox" name="calculator-tnc" id="calculator-tnc" value="tick" style="display:inline; width: 5%; zoom: 1.5;" required>I Agree to the <a href="{% url 'tnc' %}">Terms and Conditions</a> of PassedOnWisdom and Assure that the Calculator is in Working Condition
+      <br><br>
+
+      <button class="button" type="button" onclick="calculator()" >Submit</button></span>
+    </div>
+
+    <!-- Modal for Calculator -->
+
+    <div id="calculator-modal" class="modal" name="modalname">
+      <span onclick="document.getElementById('calculator-modal').style.display='none'" class="close" title="Close Modal">X</span>
+      <div class="modal-content" action="#">
+        <div class="container">
+          <h1 class="modalHeading">Are you Sure You want to Sell the Calculator?</h1><hr>
+          <p class="modalText">On Clicking "Sell", Your Calculator will be Added to our Database. When a Buyer Requests to Buy a Calculator, You will be Notified via Email and We will Contact You to Collect the Calculator from You at the Mentioned Price.</p>
+          <h3 id="calculator-model-modal"></h3>
+          <h3 id="calculator-description-modal"></h3>
+          <h3 id="calculator-price-modal">Price: Rs. 600</h3>
+          
+          <div class="clearfix">
+            {% if user.is_authenticated %}
+            <button type="submit" onclick="document.getElementById('calculator-modal').style.display='none'" class="confirmbtn">Sell</button>
+            {% else %}
+            <a href="{% url 'login' %}"><button type="button" class="confirmbtn">Login</button></a>
+            {% endif %} 
+            <button type="button" onclick="document.getElementById('calculator-modal').style.display='none'" class="cancelbtn">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+
+
+
+</div>
+</div>
+
+
+
+
+    <script>
+      function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+      }
+      
+      // Get the element with id="defaultOpen" and click on it
+      document.getElementById("defaultOpen").click();
+      </script>
+
+      <script>
+        // Get the modal
+    var modals = document.getElementsByname('modalname');
+    
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      for(modal in modals){
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+      }
+    }
+
+    function book(){
+      
+      var name = document.getElementById('book-name').value; 
+      var author = document.getElementById('book-author').value; 
+      var price = document.getElementById('book-price').value; 
+      var description = document.getElementById('book-description').value; 
+      var error = 0;
+      var terror = 0;
+
+      if(name!="" && author!="" && price!="" && description!=""){
+        error=0;
+      }
+      else{
+        alert("Please Fill All the Fields of the Book!");
+        error=1;
+      }
+      if(document.getElementById('book-tnc').checked){
+        terror=0;
+      }
+      else{
+        alert("Please Agree to the Terms and Conditions of Selling a Book!");
+        terror=1;
+      }
+
+      if(error == 0 && terror == 0){
+      document.getElementById('book-modal').style.display='block';
+      document.getElementById("book-name-modal").innerHTML = "Book Name: "+ name;
+      document.getElementById("book-author-modal").innerHTML = "Book Author: "+ author;
+      document.getElementById("book-price-modal").innerHTML = "Book Price: "+ price;
+      document.getElementById("book-description-modal").innerHTML = "Book Description: "+ description;
+    }
+    else{
+      error=0;
+    }
+  }
+
+
+  function suitPrice(){
+    var gender = document.getElementsByName('suit-gender');
+    for(j=0; j<gender.length; j++){
+      if(gender[j].checked){
+        if(gender[j].value == "Male"){
+          document.getElementById("suit-price").innerHTML = "Rs. 300";
+        }
+        else{
+          document.getElementById("suit-price").innerHTML = "Rs. 250";
+        }
+      }
+        
+  }}
+
+
+  function suit(){
+    var size1 = document.getElementsByName('suit-size'); 
+    var gender1 = document.getElementsByName('suit-gender');
+    var description1 = document.getElementById('suit-description').value;
+    var sizeFlag = 0;
+    var genderFlag = 0;
+    var descriptionFlag = 0;
+    var terror1 = 0;
+        for(i = 0; i < size1.length; i++) { 
+            if(size1[i].checked) {
+            document.getElementById("suit-size-modal").innerHTML = "Size: "+size1[i].value;
+              sizeFlag=1;
+          }
+        } 
+        for(j=0; j<gender1.length; j++){
+          if(gender1[j].checked){
+            document.getElementById("suit-gender-modal").innerHTML = "Variant: "+gender1[j].value;
+            genderFlag=1;
+            if(gender1[j].value == "Male"){
+              document.getElementById("suit-price-modal").innerHTML = "Price: Rs. 300";
+            }
+            else{
+              document.getElementById("suit-price-modal").innerHTML = "Price: Rs. 250";
+            }
+          }
+        }
+
+        if(description1 != ""){
+          document.getElementById("suit-description-modal").innerHTML = "Description: "+ description1;
+          descriptionFlag = 1;
+        }
+
+        if(sizeFlag!=1 || genderFlag!=1 || descriptionFlag!=1){
+          alert("Please Select All Fields of the Boiler Suit!");
+          
+        }
+
+        if(document.getElementById('suit-tnc').checked){
+          terror1=1;
+        }
+        else{
+          alert("Please Agree to the Terms and Conditions of Selling a Boiler Suit!");
+          terror1=0;
+          return false;
+        }
+
+        if(sizeFlag == 1 && genderFlag == 1 && descriptionFlag == 1 && terror1 == 1){
+          document.getElementById('suit-modal').style.display='block';
+        }
+        else{
+          
+        }
+
+  }
+
+
+  function coat(){
+    var size2 = document.getElementsByName('coat-size'); 
+    var description2 = document.getElementById('coat-description').value;
+    var sizeFlag2 = 0;
+    var descriptionFlag2 = 0;
+    var terror2 = 0;
+        for(i = 0; i < size2.length; i++) { 
+            if(size2[i].checked) {
+            document.getElementById("coat-size-modal").innerHTML = "Size: "+size2[i].value;
+              sizeFlag2=1;
+          }
+        } 
+
+        if(description2 != ""){
+          document.getElementById("coat-description-modal").innerHTML = "Description: "+ description2;
+          descriptionFlag2 = 1;
+        }
+
+        if(sizeFlag2!=1 || descriptionFlag2!=1){
+          alert("Please Select All Fields of the Lab Coat!");
+          
+        }
+
+        if(document.getElementById('coat-tnc').checked){
+          terror2=1;
+        }
+        else{
+          alert("Please Agree to the Terms and Conditions of Selling a Lab Coat!");
+          terror2=0;
+          return false;
+        }
+
+        if(sizeFlag2 == 1 && descriptionFlag2 == 1 && terror2 == 1){
+          document.getElementById('coat-modal').style.display='block';
+        }
+        else{
+          
+        }
+
+  }
+
+  function calculator(){
+    var model = document.getElementsByName('calculator-model'); 
+    var description3 = document.getElementById('calculator-description').value;
+    var modelFlag = 0;
+    var descriptionFlag3 = 0;
+    var terror3 = 0;
+        for(i = 0; i < model.length; i++) { 
+            if(model[i].checked) {
+            document.getElementById("calculator-model-modal").innerHTML = "Model: "+model[i].value;
+              modelFlag=1;
+          }
+        } 
+
+        if(description3 != ""){
+          document.getElementById("calculator-description-modal").innerHTML = "Description: "+ description3;
+          descriptionFlag3 = 1;
+        }
+
+        if(modelFlag!=1 || descriptionFlag3!=1){
+          alert("Please Select All Fields of the Calculator!");
+          
+        }
+
+        if(document.getElementById('calculator-tnc').checked){
+          terror3=1;
+        }
+        else{
+          alert("Please Agree to the Terms and Conditions of Selling a Calculator!");
+          terror3=0;
+          return false;
+        }
+
+        if(modelFlag == 1 && descriptionFlag3 == 1 && terror3 == 1){
+          document.getElementById('calculator-modal').style.display='block';
+        }
+        else{
+          
+        }
+
+  }
+
+      </script>
+
+{% endblock %}

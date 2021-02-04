@@ -1,0 +1,221 @@
+
+
+{% extends 'base.html' %}
+
+{% block head-content %}
+{% load static %}
+<title>Login</title>
+<link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src="{% static 'js/login.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js" integrity="sha512-hZf9Qhp3rlDJBvAKvmiG+goaaKRZA6LKUO35oK6EsM0/kjPK32Yw7URqrq3Q+Nvbbt8Usss+IekL7CRn83dYmw==" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" />
+
+{% endblock %}
+
+{% block body-content %}
+
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+
+
+<div class="container-grid">
+<div class="containerProfile">
+  <div class="nameProfile">Name: {{student.fullName}}<br><br></div>
+  <div class="nameProfile">Email address: {{student.email}}<br><br></div>
+  <div class="nameProfile">Contact Number: {{student.contactNumber}}<br><br></div>
+  <div class="nameProfile">Year: {% if student.year == "fy" %} First Year {% endif %}
+                                  {% if student.year == "sy" %} Second Year {% endif %}
+                                  {% if student.year == "ty" %} Third Year {% endif %}
+                                  {% if student.year == "ly" %} Last Year {% endif %}
+                                  <br><br></div>
+  <div class="nameProfile">Branch: {% if student.branch == "comps" %}Computer Science {% endif %}
+    {% if student.branch == "etrx" %}Electronics  {% endif %}
+    {% if student.branch == "extc" %}Electronics and Telecommunication {% endif %}
+    {% if student.branch == "it" %}Information Technology {% endif %}
+    {% if student.branch == "mech" %}Mechanical {% endif %}<br><br></div>
+
+<!-- Trigger/Open The Modal -->
+<button id="myBtn" class="button">Update Profile</button>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close">&times;</span>
+      <h3>Update Profile</h3>
+    </div>
+    <div class="modal-body">
+      <!-- SIGNUP FORM -->
+      <div class="forms">
+        <form action="/profile" id="login" name="signupform" onsubmit="return validateprofile()" method="POST">
+               {% csrf_token %}
+      <div id="signupwarning" class="warning">
+        <!-- INSERT SIGNUP WARNINGS HERE -->
+      </div>
+      
+      <div class="input-field">
+        <div class="nameProfile">Name: {{student.fullName}}<br><br></div>
+        <div class="nameProfile">Email address: {{student.email}}<br><br></div>
+        <div class="nameProfile">Mobile Number</div>
+        <input type="number" class="nameProfile" name="contactNumber" value={{student.contactNumber}} />
+        <div class="grid-container">
+          <label for="year" class="grid-item nameProfile">Year of Study</label>
+          <label for="Branch" class="grid-item nameProfile">Branch</label>
+          <select id="year" name="year" class="grid-item nameProfile">
+            <option value="-1">Select Year</option>
+            <option value="fy" {% if student.year == "fy" %} selected {% endif %}>First Year</option>
+            <option value="sy" {% if student.year == "sy" %} selected {% endif %}>Second Year</option>
+            <option value="ty" {% if student.year == "ty" %} selected {% endif %}>Third Year</option>
+            <option value="ly" {% if student.year == "ly" %} selected {% endif %}>Fourth Year</option>
+          </select>
+          <select id="branch" name="branch" class="grid-item nameProfile">
+            <option value="-1">Select Branch</option>
+            <option value="comps" {% if student.branch == "comps" %} selected {% endif %}>COMPS</option>
+            <option value="etrx" {% if student.branch == "etrx" %} selected {% endif %}>ETRX</option>
+            <option value="extc" {% if student.branch == "extc" %} selected {% endif %}>EXTC</option>
+            <option value="it" {% if student.branch == "it" %} selected {% endif %}>IT</option>
+            <option value="mech" {% if student.branch == "mech" %} selected {% endif %}>MECH</option>
+          </select>
+        </div>
+        <!-- <label for="password">Password</label>
+        <p class="muted-text">(Password Must be Atleast 6 Characters Long)</p>
+        <input type="password" name="password" placeholder="******" />
+        <label for="confirmPassword">Confirm Password</label>
+        <p class="muted-text">(Password and Confirm Password Fields Must Match)</p>
+        <input type="password" name="confirmPassword" placeholder="******" /> -->
+        <input type="submit" value="Update" class="button" />
+      </div>
+
+    </form>
+    </div>
+      </div>
+      <!-- <div class="modal-footer">
+        <h3>Modal Footer</h3>
+      </div> -->
+    </div>
+  
+  </div>
+</div>
+<div class="graph">
+  <div class="nameProfile"><div style="margin:auto;text-align: center;">Selling Transactions</div></div>
+  <div> 
+    <canvas id="sell" class="graphin"></canvas>
+  </div>
+</div>
+<div class="graph">
+  <div class="nameProfile"><div style="margin:auto;text-align: center;">Buying Transactions</div></div>
+  <div> 
+    <canvas id="buy" class="graphin"></canvas>
+  </div>
+</div>
+</div>
+  <script>
+    var total_inProcess_bought=parseInt("{{total_inProcess_bought}}");
+    var total_complete_bought=parseInt("{{total_complete_bought}}");
+    var sum=total_inProcess_bought+total_complete_bought;
+    if(sum!=0){
+    var ctx = document.getElementById("buy").getContext('2d');
+    var myChart = new Chart(ctx, {
+  type: 'doughnut',
+  data: {
+    labels: ["Orders In Process", "Orders Completed"],
+    datasets: [{
+      backgroundColor: [
+        "rgba(34,85,164,0.7)",
+        "rgba(181,77,71,0.7)",
+      ],
+      data: [total_inProcess_bought, total_complete_bought]
+    }]
+  }
+});
+}
+else{
+  var ctx = document.getElementById("buy").getContext('2d');
+    var myChart = new Chart(ctx, {
+  type: 'doughnut',
+  data: {
+    labels: ["No Transaction"],
+    datasets: [{
+      backgroundColor: [
+        "rgba(0,0,0,0.2)",
+
+      ],
+      data: [100]
+    }]
+  }
+});
+}
+
+    var total_inProcess_sold=parseInt("{{total_inProcess_sold}}");
+    var total_complete_sold=parseInt("{{total_complete_sold}}");
+    var total_inStock_sold=parseInt("{{total_inStock_sold}}");
+    // var count_sold_pending=parseInt("{{count_sold_pending}}")
+    sum=total_inProcess_sold+total_complete_sold+total_inStock_sold;
+    if(sum!=0){
+    var ctx = document.getElementById("sell").getContext('2d');
+    var myChart = new Chart(ctx, {
+  type: 'doughnut',
+  data: {
+    labels: ["Advertisement Posted", "Orders In Process", "Orders Completed"],
+    datasets: [{
+      backgroundColor: [
+        "rgba(0,0,0,0.7)",
+        "rgba(34,85,164,0.7)",
+        "rgba(181,77,71,0.7)",
+      ],
+      data: [total_inStock_sold, total_inProcess_sold,total_complete_sold]
+    }]
+  }
+});}
+else{   
+  var ctx = document.getElementById("sell").getContext('2d');
+    var myChart = new Chart(ctx, {
+  type: 'doughnut',
+  data: {
+    labels: ["No Transaction"],
+    datasets: [{
+      backgroundColor: [
+        "rgba(0,0,0,0.2)",
+
+      ],
+      data: [100]
+    }]
+  }
+});
+}
+
+
+    // Get the modal
+    var modal = document.getElementById("myModal");
+    
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+    
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    
+    // When the user clicks the button, open the modal 
+    btn.onclick = function() {
+      modal.style.display = "block";
+    }
+    
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+    
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+    </script>
+
+
+
+{% endblock %}

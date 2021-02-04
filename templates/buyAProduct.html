@@ -1,0 +1,401 @@
+{% extends 'base.html' %}
+
+{% block head-content %}
+
+{% load static %}
+<title>Buy a Product</title>
+<link rel="stylesheet" type="text/css" href="{% static 'css/buy.css' %}">
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+
+{% endblock %}
+
+
+{% block body-content %}
+
+<div class="tab">
+<button class="tablinks active" onclick="openTab(event, 'books')">
+  <span class="tabheading">Reference Books</span>
+</button><button class="tablinks" onclick="openTab(event, 'others')">
+  <span class="tabheading">Other Products</span>
+</button>
+</div>
+
+<div id="warning">Colleges are Shut due to COVID, The Seller of the BOOK You Buy will Contact You. Co-ordinate with them and Meet at a Common Place to Complete the Transaction. For Other Products, We will Contact you.</div>
+
+<div id="books" class="tabcontent" style="display: grid;">
+  <div id="searchDiv">
+    <input type="text" name="bookSearch" id="bookSearch" placeholder="Search by Name or Author of the Book"><button id="searchButton">Search</button>
+  </div>
+
+  <!-- Repeat the following Code for all the books -->
+  
+
+  {% for book in books %}
+  <div class="bookAd">
+    <div id="imageSpan">
+      {% if book.bookImage %}
+      <img src="{{book.bookImage.url}}" alt="">
+      {% endif %}
+    </div>
+    <span class="bookName">{{book.bookName}}</span>
+    <span class="bookAuthor">{{book.author}}</span><hr>
+    <span class="bookDescription">{{book.description}}</span><br><br>
+    <span class="bookPrice">Rs. {{book.price}} <button id="buyButton" onclick="document.getElementById('id{{forloop.counter}}').style.display='block'">Buy Now</button></span>
+  </div>
+
+  <div id="id{{forloop.counter}}" class="modal" name="modalname">
+    <span onclick="document.getElementById('id{{forloop.counter}}').style.display='none'" class="close" title="Close Modal">X</span>
+    <div class="modal-content" action="#">
+      <div class="container">
+        <h1 class="modalHeading">Do you want to buy this Book?</h1><hr>
+        <p class="modalText">On Clicking "Confirm", your Contact Details will be shared with the Seller of this Book and He/She may Contact You Soon</p>
+        {% if user.is_authenticated == False %}
+        <p style="text-align: left;"><b>You need to login to buy this book</b></p>
+        {% endif %}
+        <div class="clearfix">
+          {% if user.is_authenticated %}
+          <a href="buyBook/{{book.bookId}}"><button type="button" onclick="document.getElementById('id{{forloop.counter}}').style.display='none'" class="confirmbtn">Confirm</button></a>
+          {% else %}
+          <a href="{% url 'login' %}"><button type="button" onclick="document.getElementById('id{{forloop.counter}}').style.display='none'" class="confirmbtn">Login</button></a>
+          {% endif %} 
+          <button type="button" onclick="document.getElementById('id{{forloop.counter}}').style.display='none'" class="cancelbtn">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+ 
+  <!-- Finish of Repeating Code -->
+  
+</div>
+
+
+<div id="others" class="tabcontent">
+  <!-- BOILER SUIT -->
+  <div class="other-inner">
+    <img src="{% static 'images/home/boilersuit.jpg' %}">
+    <h2 style="text-align: center;">Boiler Suit</h2><hr><br>
+    <center>
+      <p style="zoom: 0.8;">A Boiler Suit for the Workshop <br>The Male Option is Full Length while the Female Option is Half Length</p><br>
+
+
+      <form action="buySuit" method="POST">
+        {% csrf_token %}
+        <input type="radio" name="suit-gender" value="Male" id="suit-gender-m" require onchange="suitPrice()">
+        <label for="suit-gender-m">Male</label>
+        <input type="radio" name="suit-gender" value="Female" id="suit-gender-f" require onchange="suitPrice()">
+        <label for="suit-gender-f">Female</label><br>
+        
+        <input type="radio" name="suit-size" value="S" id="suit-size-s" required>
+        <label for="suit-size-s">S</label>
+        <input type="radio" name="suit-size" value="M" id="suit-size-m" required>
+        <label for="suit-size-m">M</label>
+        <input type="radio" name="suit-size" value="L" id="suit-size-l" required>
+        <label for="suit-size-l">L</label>
+        <input type="radio" name="suit-size" value="XL" id="suit-size-xl" required>
+        <label for="suit-size-xl">XL</label>
+        <input type="radio" name="suit-size" value="XXL" id="suit-size-xxl" required>
+        <label for="suit-size-xxl">XXL</label><br>
+        
+        <input type="radio" name="suit-condition" value="used" id="suit-condition-u" require>
+        <label for="suit-condition-u">Used</label>
+        <input type="radio" name="suit-condition" value="new" id="suit-condition-n" disabled require>
+        <label for="suit-condition-n" style="color: grey; border-color: grey; cursor: not-allowed; background: #fff;">New</label><br>
+        <span class="productPrice" style="zoom: 0.8;"><span id="suit-price">Rs. 0</span>
+        <button id="buyButton" type="button" onclick="suit()" >Buy Now</button></span>
+
+<!-- Boiler Suit Modal -->
+
+        <div id="suit-modal" class="modal" name="modalname">
+          <span onclick="document.getElementById('suit-modal').style.display='none'" class="close" title="Close Modal">X</span>
+          <div class="modal-content" action="#">
+            <div class="container">
+              <h1 class="modalHeading">Do you want to buy the Boiler Suit?</h1><hr>
+              <p class="modalText">On Clicking "Confirm", We will Contact You for Receiving the Delivery of the Boiler Suit</p>
+              <h4 id="suit-size-modal"></h4>
+              <h4 id="suit-gender-modal"></h4>
+              <h4 id="suit-condition-modal">Condition: Used</h4>
+              <h4 id="suit-price-modal"></h4>
+              <h4 id="suit-payment-modal">Payment: Cash On Delivery</h4>
+              <div class="clearfix">
+                {% if user.is_authenticated %}
+                <button type="submit" onclick="document.getElementById('suit-modal').style.display='none'" class="confirmbtn">Confirm</button>
+                {% else %}
+                <a href="{% url 'login' %}"><button type="button" class="confirmbtn">Login</button></a>
+                {% endif %} 
+                <button type="button" onclick="document.getElementById('suit-modal').style.display='none'" class="cancelbtn">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </center> 
+  </div>
+  
+  <div class="other-inner">
+    <img src="{% static 'images/home/labcoat.jpg' %}">
+    <h2 style="text-align: center;">Lab Coat</h2><hr><br>
+    <center>
+      <p style="zoom: 0.8;">A Lab Coat for Chemistry Lab <br>This is very helpful and necessary to protect you from the harmful chemicals</p><br><br>
+    
+      <form action="buyCoat" method="POST">
+        {% csrf_token %}
+        <input type="radio" name="coat-size" value="S" id="coat-size-s" required>
+        <label for="coat-size-s">S</label>
+        <input type="radio" name="coat-size" value="M" id="coat-size-m" required>
+        <label for="coat-size-m">M</label>
+        <input type="radio" name="coat-size" value="L" id="coat-size-l" required>
+        <label for="coat-size-l">L</label>
+        <input type="radio" name="coat-size" value="XL" id="coat-size-xl" required>
+        <label for="coat-size-xl">XL</label>
+        <input type="radio" name="coat-size" value="XXL" id="coat-size-xxl" required>
+        <label for="coat-size-xxl">XXL</label><br>
+        
+        <input type="radio" name="coat-condition" value="used" id="coat-condition-u" require>
+        <label for="coat-condition-u">Used</label>
+        <input type="radio" name="coat-condition" value="new" id="coat-condition-n" disabled require>
+        <label for="coat-condition-n" style="color: grey; border-color: grey; cursor: not-allowed; background: #fff;">New</label><br><br>
+        <span class="productPrice" style="zoom: 0.8;"><span id="coat-price">Rs. 180</span>
+        <button id="buyButton" type="button" onclick="coat()" >Buy Now</button></span>
+
+        <!-- Lab Coat Modal -->
+
+        <div id="coat-modal" class="modal" name="modalname">
+          <span onclick="document.getElementById('coat-modal').style.display='none'" class="close" title="Close Modal">X</span>
+          <div class="modal-content" action="#">
+            <div class="container">
+              <h1 class="modalHeading">Do you want to buy the Lab Coat?</h1><hr>
+              <p class="modalText">On Clicking "Confirm", We will Contact You for Receiving the Delivery of the Lab Coat</p>
+              <h4 id="coat-size-modal"></h4>
+              <h4 id="coat-condition-modal">Condition: Used</h4>
+              <h4 id="coat-price-modal">Price: Rs. 180</h4>
+              <h4 id="coat-payment-modal">Payment: Cash On Delivery</h4>
+              <div class="clearfix">
+                {% if user.is_authenticated %}
+                <button type="submit" onclick="document.getElementById('coat-modal').style.display='none'" class="confirmbtn">Confirm</button>
+                {% else %}
+                <a href="{% url 'login' %}"><button type="button" class="confirmbtn">Login</button></a>
+                {% endif %} 
+                <button type="button" onclick="document.getElementById('coat-modal').style.display='none'" class="cancelbtn">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </center> 
+
+  </div>
+  
+  <div class="other-inner">
+    <img src="{% static 'images/home/calculator.jpg' %}">
+    <h2 style="text-align: center;">Calculator</h2><hr><br>
+    <center>
+      <p style="zoom: 0.8;">A Scientific Calculator for All the Calculations and Passing Messages to Friends during Lectures <br><br><b>Model: Casio FX-991 ES Plus </b></p><br><br>
+
+      <form action="buyCalculator" method="POST">
+        {% csrf_token %}
+        <input type="radio" name="calculator-condition" value="used" id="calculator-condition-u" require>
+        <label for="calculator-condition-u">Used</label>
+        <input type="radio" name="calculator-condition" value="new" id="calculator-condition-n" disabled require>
+        <label for="calculator-condition-n" style="color: grey; border-color: grey; cursor: not-allowed; background: #fff;">New</label><br><br>
+        <span class="productPrice" style="zoom: 0.8;"><span id="calculator-price">Rs. 700</span>
+        <button id="buyButton" type="button" onclick="calculator()" >Buy Now</button></span>
+<!-- Calculator Modal -->
+        <div id="calculator-modal" class="modal" name="modalname">
+          <span onclick="document.getElementById('calculator-modal').style.display='none'" class="close" title="Close Modal">X</span>
+          <div class="modal-content" action="#">
+            <div class="container">
+              <h1 class="modalHeading">Do you want to buy the Scientific Calculator?</h1><hr>
+              <p class="modalText">On Clicking "Confirm", We will Contact You for Receiving the Delivery of the Calculator</p>
+              <h4 id="calculator-condition-modal">Condition: Used</h4>
+              <h4 id="calculator-price-modal">Price: Rs. 700</h4>
+              <h4 id="calculator-payment-modal">Payment: Cash On Delivery</h4>
+              <div class="clearfix">
+                {% if user.is_authenticated %}
+                <button type="submit" onclick="document.getElementById('calculator-modal').style.display='none'" class="confirmbtn">Confirm</button>
+                {% else %}
+                <a href="{% url 'login' %}"><button type="button" class="confirmbtn">Login</button></a>
+                {% endif %} 
+                <button type="button" onclick="document.getElementById('calculator-modal').style.display='none'" class="cancelbtn">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </center> 
+  </div>
+
+
+
+  
+  <div class="other-inner">
+    <img src="{% static 'images/home/toolkit.jpg' %}">
+    <h2 style="text-align: center;">Tool Kit</h2><hr><br>
+    <center>
+      <p style="zoom: 0.8;">A Tool Kit for doing all the Hard Work at the Workshops! <br><br><b>Contents: 2 Blades, 1 Steel Ruler, 1 White Pencil </b></p><br><br>
+
+      <br><br>
+      <form action="buyTool" method="POST">
+        {% csrf_token %}
+        <span class="productPrice" style="zoom: 0.8;"><span id="toolkit-price">Rs. 120</span>
+        <button id="buyButton" type="button" onclick="toolkit()" >Buy Now</button></span>
+<!-- Toolkit Modal -->
+        <div id="toolkit-modal" class="modal" name="modalname">
+          <span onclick="document.getElementById('toolkit-modal').style.display='none'" class="close" title="Close Modal">X</span>
+          <div class="modal-content" action="#">
+            <div class="container">
+              <h1 class="modalHeading">Do you want to buy the Toolkit?</h1><hr>
+              <p class="modalText">On Clicking "Confirm", We will Contact You for Receiving the Delivery of the Toolkit</p>
+              <h4 id="toolkit-contents-modal">Contents: 2 Blades, 1 Steel Ruler, 1 White Pencil</h4>
+              <h4 id="toolkit-price-modal">Price: Rs. 120</h4>
+              <h4 id="toolkit-payment-modal">Payment: Cash On Delivery</h4>
+              <div class="clearfix">
+                {% if user.is_authenticated %}
+                <button type="submit" onclick="document.getElementById('toolkit-modal').style.display='none'" class="confirmbtn">Confirm</button>
+                {% else %}
+                <a href="{% url 'login' %}"><button type="button" class="confirmbtn">Login</button></a>
+                {% endif %} 
+                <button type="button" onclick="document.getElementById('toolkit-modal').style.display='none'" class="cancelbtn">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </center>
+  </div>
+   
+</div>
+
+
+<script>
+  function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "grid";
+    evt.currentTarget.className += " active";
+  }
+  </script>
+
+<!-- Modal Javascript -->
+  <script>
+    // Get the modal
+    var modals = document.getElementsByname('modalname');
+    
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      for(modal in modals){
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+      }
+    }
+    </script>
+
+    <script>
+      function suit(){
+        var size1 = document.getElementsByName('suit-size'); 
+        var gender = document.getElementsByName('suit-gender');
+        var condition = document.getElementsByName('suit-condition');
+        var sizeFlag = 0;
+        var genderFlag = 0;
+        var conditionFlag = 0;
+            for(i = 0; i < size1.length; i++) { 
+                if(size1[i].checked) {
+                document.getElementById("suit-size-modal").innerHTML = "Size: "+size1[i].value;
+                  sizeFlag=1;
+              }
+            } 
+            for(j=0; j<gender.length; j++){
+              if(gender[j].checked){
+                document.getElementById("suit-gender-modal").innerHTML = "Variant: "+gender[j].value;
+                genderFlag=1;
+                if(gender[j].value == "Male"){
+                  document.getElementById("suit-price-modal").innerHTML = "Price: Rs. 300";
+                }
+                else{
+                  document.getElementById("suit-price-modal").innerHTML = "Price: Rs. 250";
+                }
+              }
+            }
+            if(condition[0].checked || condition[1].checked){
+              conditionFlag = 1;
+            }
+
+            if(sizeFlag == 1 && genderFlag == 1 && conditionFlag == 1){
+              document.getElementById('suit-modal').style.display='block';
+            }
+            else{
+              alert("Please Select All Fields of the Boiler Suit!");
+              return false;
+            }
+      }
+      function suitPrice(){
+        var gender = document.getElementsByName('suit-gender');
+        for(j=0; j<gender.length; j++){
+          if(gender[j].checked){
+            if(gender[j].value == "Male"){
+              document.getElementById("suit-price").innerHTML = "Rs. 300";
+            }
+            else{
+              document.getElementById("suit-price").innerHTML = "Rs. 250";
+            }
+          }
+            
+      }}
+
+      function coat(){
+        var size2 = document.getElementsByName('coat-size'); 
+        var condition2 = document.getElementsByName('coat-condition');
+        var size2Flag = 0;
+        var condition2Flag = 0;
+            for(i = 0; i < size2.length; i++) { 
+                if(size2[i].checked) {
+                document.getElementById("coat-size-modal").innerHTML = "Size: "+size2[i].value;
+                  size2Flag = 1;
+              }
+            } 
+
+            if(condition2[0].checked || condition2[1].checked){
+              condition2Flag = 1;
+            }
+
+            if(size2Flag == 1 && condition2Flag == 1){
+              document.getElementById('coat-modal').style.display='block';
+            }
+            else{
+              alert("Please Select All Fields of the Lab Coat!");
+              return false;
+            }
+      }
+
+
+      function calculator(){
+        var condition3 = document.getElementsByName('calculator-condition');
+        var condition3Flag = 0;
+
+            if(condition3[0].checked || condition3[1].checked){
+              condition3Flag = 1;
+            }
+
+            if(condition3Flag == 1){
+              document.getElementById('calculator-modal').style.display='block';
+            }
+            else{
+              alert("Please Select All Fields of the Calculator!");
+              return false;
+            }
+      }
+
+      function toolkit(){
+              document.getElementById('toolkit-modal').style.display='block';
+      }
+    </script>
+{% endblock %}

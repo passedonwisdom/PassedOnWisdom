@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block head-content %}
+{% load static %}
+<title>Passed On Wisdom</title>
+<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+{% endblock %}
+
+{% block body-content %}
+<!-- ==================================================================================================== -->
+<img src="{% static 'images/home/banner.png' %}" id="banner">
+<!-- ==================================================================================================== -->
+<h1 style="text-align: center; color:#1a1919; font-size: 2vw;" class="heading">Steps for Using the Website</h1>
+<hr style="border: 1px solid #B54D47; width: 20vw;">
+<img src="{% static 'images/home/steps-desktop.png' %}" id="steps">
+<!-- ==================================================================================================== -->
+<h1 style="text-align: center; color:#1a1919; font-size: 2vw;" class="heading">Our Products apart from Books</h1>
+<hr style="border: 1px solid #B54D47; width: 20vw;">
+<div id="info">
+    <a href="{% url 'buyAProduct' %}" style=" cursor: poimter; text-decoration: none;">
+        <div>
+            <img src="{% static 'images/home/boilersuit.jpg' %}" class="productphoto">
+            <div class="productname">Boiler Suit</div>
+            <hr class="productnameunderline">
+        </div>
+    </a>
+    <a href="{% url 'buyAProduct' %}" style=" cursor: poimter; text-decoration: none;">
+        <div>
+            <img src="{% static 'images/home/labcoat.jpg' %}" class="productphoto">
+            <div class="productname">Lab Coat</div>
+            <hr class="productnameunderline">
+        </div>
+    </a>
+    <a href="{% url 'buyAProduct' %}" style=" cursor: poimter; text-decoration: none;">
+        <div>
+            <img src="{% static 'images/home/calculator.jpg' %}" class="productphoto">
+            <div class="productname">Calculator</div>
+            <hr class="productnameunderline">
+        </div>
+    </a>
+    <a href="{% url 'buyAProduct' %}" style=" cursor: poimter; text-decoration: none;">
+        <div>
+            <img src="{% static 'images/home/toolkit.jpg' %}" class="productphoto">
+            <div class="productname">Tool Kit</div>
+            <hr class="productnameunderline">
+        </div>
+    </a>
+</div>
+<!-- ==================================================================================================== -->
+{% endblock %}

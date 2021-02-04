@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+
+{% block head-content %}
+
+{% load static %}
+<title>About Us</title>
+<link rel="stylesheet" type="text/css" href="{% static 'css/aboutUs.css' %}">
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+
+<style>
+    *{
+        box-sizing: border-box;
+        border: none;
+    }
+    #aboutpage {
+        border-bottom: #B54D47 0.2vw solid;
+    }
+    .hr {
+        border-bottom: 0.5px solid #B54D47;
+        margin: -10px auto 10px auto;
+        width: 60%;
+        }
+    #main{
+        width: 100%;
+        margin: 0;
+        min-height: 85vh;
+        background: #fff;
+        padding: 0;
+        display: grid;
+        grid-template-columns: 1fr 1.75fr;
+    }
+    .about-div{
+        padding: 2% 5%;
+        font-weight: 600;
+        line-height: 24px;
+        text-align: justify;
+    }
+    .profile-outer{
+        background: #efefef;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        grid-gap: 3.5% 2%;
+        padding: 2%;
+    }
+    .profile-inner{
+        background: #fff;
+        text-align: center;
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        grid-gap: 3%;
+        padding: 0% 2%;
+        align-items: center;
+        zoom: 0.9;
+        box-shadow: 2px 0 5px 0 #bbb;
+    }
+    .profile-inner:hover{
+        transform: scale(1.01);
+        transition: transform 0.3s linear;
+    }
+    .image-cover{
+        margin: 0;
+        padding: 5%;
+        background-color: #B54D47;
+        align-content: center;
+    }
+    .image-cover img{
+        transform: translateX(-15px);
+        width: 110%;
+    }
+    i{
+        margin: 0 5%;
+        color: #B54D47;
+    }
+    b{
+        color: #B54D47;
+        font-weight: 900;
+    }
+    .p::first-letter{
+        font-size: 200%;
+    }
+
+
+
+    @media screen and (max-width: 991px){
+        #main{
+            grid-template-columns: 1fr 1fr;
+        }
+        .profile-outer{
+            grid-template-columns: 1fr;
+            padding-bottom: 20%;
+        }
+        .profile-inner{
+            zoom: 0.8;
+        }
+    }
+    @media screen and (max-width: 700px){
+        #main{
+            grid-template-columns: 1fr;
+        }
+        .profile-outer{
+            grid-template-columns: 1fr 1fr;
+            padding-bottom: 10%;
+        }
+    }
+    @media screen and (max-width: 590px){
+        #main{
+            grid-template-columns: 1fr;
+        }
+        .profile-outer{
+            grid-template-columns: 1fr;
+            padding-bottom: 20%;
+        }
+        .about-div{
+            font-size: small;
+        }
+    }
+    @media screen and (max-width: 460px){
+        .profile-outer{
+            padding-bottom: 40%;
+        }
+    }
+
+</style>
+
+{% endblock %}
+
+{% block body-content %}
+
+<div id="main">
+    <div class="about-div">
+        <h1 style="text-align: center;">About Us</h1><hr class="hr">
+        <p class="p"><b>Passed On Wisdom</b> is a Campus Company Based in K. J. Somaiya College of Engineering Run by 4 Students from Third Year IT Engineering. We at <b>Passed On Wisdom</b> Aim to Provide the Younger Generations a Marketplace to Buy All the Necessary Items for a College Starter Pack at a Cheaper Price. <b>Passed On Wisdom</b> is a  Platform for All to Post Ads for and Purchase these Items as well as Buy and Sell Reference Books. This Idea is Driven by all Four of us having a Fire within ourselves to Experience Business First hand in College itself! The Idea was seeded in the Early 2020 but was Delayed due to te COVID-19 Pandemic. After Endless Hours of Brainstorming, HardWork, Team Meets and Discussions, <b>Passed On Wisdom</b> is Finally Live! Do use this service and tell your Friends too!</p>
+        <h3>In Case of Any Complaints, Queries, Suggestions or Anything Else, Feel Free to Contact Any of Us and We Will Be More than Happy to Assist You! <i class="far fa-smile-beam"></i></h3>
+    </div>
+    <div class="profile-outer">
+        <div class="profile-inner">
+            <div class="image-cover">
+                <img src="{% static 'images/Co-Founders/sanyamF.png' %}" alt="">
+            </div>
+            <div>
+                <h2>Sanyam Gandhi</h2>
+                <p>Sanyam is a Cool and Down to Earth Guy with a Come What May Attitude in Life!</p>
+                <h3>Marketing Head / Developer</h3><hr class="hr">
+                <h4><i class="fas fa-phone-alt"></i>7887779499</h4>
+            </div>
+        </div>
+        <div class="profile-inner">
+            <div class="image-cover">
+                <img src="{% static 'images/Co-Founders/yashF.png' %}" alt="">
+            </div>
+            <div>
+                <h2>Yash Deorah</h2>
+                <p>Yash is the Active and Ethusiastic in creatig New Things and is the Go To Guy for any Problem!</p>
+                <h3>Business Head / Developer</h3><hr class="hr">
+                <h4><i class="fas fa-phone-alt"></i>9022420987</h4>
+            </div>
+        </div>
+        <div class="profile-inner">
+            <div class="image-cover">
+                <img src="{% static 'images/Co-Founders/manishF.png' %}" alt="">
+            </div>
+            <div>
+                <h2>Manish Parihar</h2>
+                <p>Manish is the Tech Savvy Guy who always brings something New on the Table!</p>
+                <h3>Designer / Developer</h3><hr class="hr">
+                <h4><i class="fas fa-phone-alt"></i>9029043112</h4>
+            </div>
+        </div>
+        <div class="profile-inner">
+            <div class="image-cover">
+                <img src="{% static 'images/Co-Founders/jayF.png' %}" alt="">
+            </div>
+            <div>
+                <h2>Jay Maru</h2>
+                <p>Jay is the UI Expert and a Chill Guy who likes to Think and Always Figures it Out!</p>
+                <h3>Business / Developer</h3><hr class="hr">
+                <h4><i class="fas fa-phone-alt"></i>9594233997</h4>
+            </div>
+        </div>
+               
+        
+    </div>
+</div>
+
+
+{% endblock %}

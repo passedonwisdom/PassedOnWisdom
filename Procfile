@@ -1,0 +1,1 @@
+web: gunicorn passedonwisdom.wsgi — log-file -

@@ -1,0 +1,396 @@
+{% extends 'base.html' %}
+
+{% block head-content %}
+
+{% load static %}
+<title>Your Advertisemets</title>
+<link rel="stylesheet" type="text/css" href="{% static 'css/advertisements.css' %}">
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+<style>
+    *{
+        box-sizing: border-box;
+        border: none;
+    }
+    #main{
+        width: 90%;
+        margin: 2% auto;
+        min-height: 85vh;
+        background: #efefef;
+        padding: 2% 2% 8% 2%;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-gap: 2% 2%;
+        align-content: start;
+        animation: fade 0.7s linear;
+    }
+    @keyframes fade {
+        0% {
+          opacity: 0
+        }
+        100% {
+          opacity: 1
+        }
+      }
+
+      hr{
+        border-bottom: 0.5px solid #B54D47;
+        margin: 10px auto 15px;
+        width: 80%;
+      }
+    .hr{
+        border-bottom: 0.5px solid #B54D47;
+        margin: -10px auto 0px auto;
+        width: 60%;
+      }
+    
+    .inner{
+        margin: 1%;
+        background: #fff;
+        min-height: 35vh;
+        padding: 4%;
+        box-shadow: 2px 0 5px 0 #bbb;
+    }
+    .inner:hover{
+        transition: transform 0.2s linear;
+        transform: scale(1.01);
+    }
+    #imageSpan{
+        width: 100%;
+        height: 25vh !important;
+        position: relative;
+        padding: 0;
+      }
+      #imageSpan > img{
+        max-height: 70%;
+        max-width: 90%;
+        width: auto;
+        height: auto;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+      }
+      #accountpage {
+        border-bottom: #B54D47 0.2vw solid;
+      }
+
+/*  COMMON CSS FOR ADVERTISEMENTS AND ORDERS   */
+
+.type{
+    font-weight: 900;
+    font-size: 22px;
+    color: #B54D47;
+}
+.price{
+    float: right;
+    margin-right: 10px;
+    font-weight: 750;
+    color: #000;
+    font-size: 20px;
+}
+.title{
+    font-weight: 600;
+    font-size: 18px;
+    color: #333;
+}
+.others{
+    font-weight: 600;
+    font-size: 16px;
+    color: #666;
+}
+.description{
+    font-weight: 500;
+    font-size: 16px;
+    color: #666;
+}
+.date{
+    font-weight: 600;
+    font-size: 16px;
+    color: #B54D47;
+}
+.muted{
+    font-weight: 600;
+    font-size: 14px;
+    color: #999;
+}
+.status{
+    font-weight: 600;
+    font-size: 16px;
+    color: green;
+}
+button{
+    padding: 5px 10px;
+    border: 2px solid #B54D47;
+    border-radius: 20px;
+    background-color: #fff;
+    color: #B54D47;
+    font-size: 16px;
+    margin: 0.2vw auto;
+    bottom: 0 !important;
+}
+button:hover, button:active{
+    border: 2px solid #B54D47;
+    background-color: #B54D47;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s linear;
+}
+
+/*  MEDIA QUERIES  */
+
+@media screen and (max-width: 1200px){
+    #main{
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+@media screen and (max-width: 991px){
+    .inner{
+        zoom: 0.9;
+    }
+}
+@media screen and (max-width: 700px){
+    #main{
+        grid-template-columns: 1fr 1fr;
+        padding-bottom: 30%;
+    }
+}
+@media screen and (max-width: 465px){
+    #main{
+        grid-template-columns: 100%;
+        padding-bottom: 50%;
+    }
+    .inner{
+        zoom: 0.8;
+        grid-column: 1/2;
+    }
+}
+
+</style>
+
+{% endblock %}
+
+{% block body-content %}
+<h1 style="text-align: center;">Your Advertisements</h1><hr class="hr">
+<div id="main">
+
+        <!-- Book Card -->
+        {% for adbook in books %}
+    
+            {% if adbook.status == 'pending' or adbook.status == 'verified' %}
+            <div  class="inner" id="bookDiv" style="display: inline-grid; grid-template-columns: 1fr;  grid-template-rows: auto 10%;">
+            {% else %}
+            <div  class="inner" id="bookDiv" style="display: inline-grid; grid-template-columns: 1fr 1fr;  grid-template-rows: auto 10%; grid-column: span 2;">
+            {% endif %}
+            <div style="margin-right: 10px;">
+                <span class="type">Book</span>
+                <span class="price">Rs. {{adbook.price}}</span><br><br>
+                <span class="title">{{adbook.bookName}}</span><br><br>
+                <span class="others"> -  {{adbook.author}}</span><br><br>
+                {% if adbook.bookImage %}
+                <div id="imageSpan"><img src="{{adbook.bookImage.url}}" alt="bookImage"></div>
+                {% endif %}
+                <span class="description">{{adbook.description}}</span><br><br>
+                <span class="date">Posted on: {{adbook.timestamp}}</span><br><br>
+                <span class="status">Status: {{adbook.status}}</span>
+            </div>
+
+            {% if adbook.status == 'inProcess' or adbook.status == 'sold' %}
+            <div style="border-left: 2px solid #eee; padding-left:10px;">
+                <span class="type">Buyer Details</span><br><br><hr><br>
+                <span class="others">Name: {{adbook.order_books.customer.fullName}}</span><br><br>
+                <span class="others">Email ID:  {{adbook.order_books.customer.email}}</span><br><br>
+                <span class="others">Mobile Number:  {{adbook.order_books.customer.contactNumber}}</span><br><br>
+                <span class="others">Year/Branch:  <i style="text-transform: uppercase;">{{adbook.order_books.customer.year}} / {{adbook.order_books.customer.branch}}</i></span><br><br>
+                <span class="date">Ordered on:  {{adbook.order_books.timestamp}}</span><br><br>
+
+                {% if adbook.status == 'pending' or adbook.status == 'verified' %}
+                    <span class="muted">If you No Longer wish to Sell the Book due to any Reason Click the 'Delete Advertisement Button' Below</span><br><br>
+                {% endif %}
+                {% if adbook.status == 'inProcess' and adbook.order_books.flag_seller_complete == '0' %}
+                    <span class="muted">If you have successfully delivered the book at the mentioned price and the order is complete, press the button below</span><br><br>
+                {% elif adbook.status == 'sold' or adbook.status == 'inProcess' and adbook.order_books.flag_seller_complete == '1' %}
+                    <span class="muted">The Trasaction is Complete from Your End. Thank You for using Passed On Wisdom :)</span><br><br>
+                {% endif %}
+
+            </div>
+            {% endif %}
+    
+            <div style="grid-column: 1/3;">
+                <center style="margin: 3%;">
+                <span class="last">
+                    {% if adbook.status == 'pending' or adbook.status == 'verified' %}
+                    <a href="deleteBook/{{adbook.bookId}}"><button class="delete-button" onclick="return del()">Delete Advertisement</button></a>
+                    {% endif %}
+                    {% if adbook.status == 'inProcess' and adbook.order_books.flag_seller_complete == '0' %}
+                    <a href="completedBook/{{adbook.bookId}}/seller"><button class="complete-button" onclick="return com()">Order Complete?</button></a>
+                    {% endif %}
+                </span>
+                </center>
+            </div>
+        </div>
+        {% endfor %}
+
+
+    <!-- Boiler Suit Card -->
+    {% for adsuit in suits %}       
+    <div class="inner" id="suitDiv">
+        <span class="type">Boiler Suit</span>
+        <span class="price">Rs. 300</span><br><br><br>
+        <span class="others">Variant - {{adsuit.gender}}</span><br><br>
+        <span class="others">Size - {{adsuit.size}}</span><br><br>
+        <span class="description">{{adsuit.description}}</span><br><br>
+        <span class="date">Posted On: {{adsuit.timestamp}}</span><br><br>
+
+        {% if adsuit.status == 'inStock' %}
+            <span class="muted">If you don't want to sell the Boiler Suit anymore due to any reason, press the 'Delete Advertisement' Button below</span><br><br>
+        {% endif %}
+
+        {% if adsuit.status == 'inProcess' and adsuit.order_suits.flag_seller_complete == '0' %}
+            <span class="muted">If you have successfully sold the Boiler Suit to us at the mentioned price, press the button below</span><br><br>
+        {% elif adsuit.status == 'sold' or adsuit.status == 'inProcess' and adsuit.order_suits.flag_seller_complete == '1' %}
+            <span class="muted">The Trasaction is Complete from Your End. Thank You for using Passed On Wisdom :)</span><br><br>
+        {% endif %}
+
+        
+        <span class="status">Status: {{adsuit.status}}</span><br><br><hr><span class="title">Order Details</span><br><br>
+        {% if adsuit.status == 'inProcess' or adsuit.status == 'sold' %}
+        <span class="date">Ordered on: {{adsuit.order_suits.timestamp}}</span><br><br>
+
+        {% else %}
+        <span class="date">No Buying Request Yet!</span><br><br>
+        {% endif %}
+        <center style="margin: 3%;">
+            <span class="last">
+                {% if adsuit.status == 'inStock' %}
+    
+                    <a href="deleteSuit/{{adsuit.suitId}}"><button class="delete-button" onclick="return del()">Delete Advertisement</button><br><br></a>
+                
+                {% endif %}
+
+                {% if adsuit.status == 'inProcess' and adsuit.order_suits.flag_seller_complete == '0'  %}
+
+                    <a href="completedSuit/{{adsuit.suitId}}/seller"><button class="complete-button" onclick="return com()">Order Complete?</button></a>
+
+                {% endif %}
+            </span>
+        </center>
+    </div>
+    {% endfor %}
+
+    <!-- Lab Coat Card -->
+    {% for adcoat in coats %} 
+    <div class="inner" id="coatDiv">
+        <span class="type">Lab Coat</span>
+        <span class="price">Rs. 180</span><br><br><br><br>
+        <span class="others">Size - {{adcoat.size}}</span><br><br><br>
+        <span class="description">{{adcoat.description}}</span><br><br>
+        <span class="date">Posted On: {{adcoat.timestamp}}</span><br><br>
+
+        {% if adcoat.status == 'inStock' %}
+        <span class="muted">If you don't want to sell the Lab Coat anymore due to any reason, press the 'Delete Advertisement' Button below</span><br><br>
+        {% endif %}
+
+        {% if adcoat.status == 'inProcess' and adcoat.order_coats.flag_seller_complete == '0' %}
+            <span class="muted">If you have successfully sold the Lab Coat at the mentioned price to us, press the button below</span><br><br>
+        {% elif adcoat.status == 'sold' or adcoat.status == 'inProcess' and adcoat.order_coats.flag_seller_complete == '1' %}
+            <span class="muted">The Trasaction is Complete from Your End. Thank You for using Passed On Wisdom :)</span><br><br>
+        {% endif %}
+
+        <span class="status">Status: {{adcoat.status}}</span><br><br><hr><span class="title">Order Details</span><br><br>
+        {% if adcoat.status == 'inProcess' or adcoat.status == 'sold' %}
+
+        <span class="date">Ordered on: {{adcoat.order_coats.timestamp}}</span><br><br>
+
+        {% else %}
+        <span class="date">No Buying Request Yet!</span><br><br>
+
+        {% endif %}
+        <center style="margin: 3%;">
+            <span class="last">
+                {% if adcoat.status == 'inStock' %}
+                
+                <a href="deleteCoat/{{adcoat.coatId}}"><button type="submit" class="delete-button" onclick="return del()">Delete Advertisement</button><br><br></a>
+          
+                {% endif %}
+
+                {% if adcoat.status == 'inProcess' and adcoat.order_coats.flag_seller_complete == '0'  %}
+
+                <a href="completedCoat/{{adcoat.coatId}}/seller"><button class="complete-button" onclick="return com()">Order Complete?</button></a>
+
+                {% endif %}
+            </span>
+        </center>
+    </div>
+    {% endfor %}
+
+    <!-- Calculator Card -->
+    {% for adcalc in calculators %} 
+    <div class="inner" id="calculatorDiv">
+        <span class="type">Calculator</span>
+        <span class="price">Rs. 700</span><br><br><br><br>
+        <span class="others">Model: Casio FX-991 ES Plus</span><br><br><br>
+        <span class="description">{{adcalc.description}}</span><br><br>
+        <span class="date">Posted On: {{adcalc.timestamp}}</span><br><br>
+
+        {% if adcalc.status == 'inStock' %}
+        <span class="muted">If you don't want to sell the Calculator anymore due to any reason, press the 'Delete Advertisement' Button below</span><br><br>
+        {% endif %}
+
+        {% if adcalc.status == 'inProcess' and adcalc.order_calculators.flag_seller_complete == '0' %}
+            <span class="muted">If you have successfully sold the Calculator at the mentioned price to us, press the button below</span><br><br>
+        {% elif adcalc.status == 'sold' or adcalc.status == 'inProcess' and adcalc.order_calculators.flag_seller_complete == '1' %}
+            <span class="muted">The Trasaction is Complete from Your End. Thank You for using Passed On Wisdom :)</span><br><br>
+        {% endif %}
+
+        <span class="status">Status: {{adcalc.status}}</span><br><br><hr><span class="title">Order Details</span><br><br>
+        {% if adcalc.status == 'inProcess' or adcalc.status == 'sold' %}
+
+        <span class="date">Ordered on: {{adcalc.order_calculators.timestamp}}</span><br><br>
+
+        {% else %}
+        <span class="date">No Buying Request Yet!</span><br><br>
+    
+
+        {% endif %}
+        <center style="margin: 3%;">
+            <span class="last">
+                {% if adcalc.status == 'inStock' %}
+               
+                <a href="deleteCalculator/{{adcalc.calculatorId}}"><button class="delete-button" onclick="return del()">Delete Advertisement</button><br><br></a>
+
+                {% endif %}
+
+                {% if adcalc.status == 'inProcess' and adcalc.order_calculators.flag_seller_complete == '0'  %}
+
+                <a href="completedCalculator/{{adcalc.calculatorId}}/seller"><button class="complete-button" onclick="return com()">Order Complete?</button></a>
+
+                {% endif %}
+            </span>
+        </center>
+    </div>
+    {% endfor %}
+</div>
+</div>
+
+
+<script>
+    function del(){
+        if (confirm("Are you Sure you want to Delete the Advertisement?")) {
+            return true;
+          } else {
+            return false;
+          }
+    }
+    function com(){
+        if (confirm("Are you Sure the Order is Complete?")) {
+            return true;
+          } else {
+            return false;
+          }
+    }
+</script>
+
+{% endblock %}
