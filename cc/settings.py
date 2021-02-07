@@ -152,7 +152,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # temp google cloud 
 
-DEFAULT_FILE_STORAGE='GoogleCloudMediaFileStorage'
+DEFAULT_FILE_STORAGE='ccapp.gCloud.GoogleCloudMediaFileStorage'
 GS_PROJECT_ID = 'passedonwisdom'
 GS_BUCKET_NAME = 'passedonwisdom'
 MEDIA_ROOT = "media/"
@@ -164,19 +164,19 @@ GS_CREDENTIALS=service_account.Credentials.from_service_account_file(
     os.path.join(BASE_DIR,'passedonwisdom-2c12a0b77dbd.json')
 )
 
-from django.conf import settings
-from storages.backends.gcloud import GoogleCloudStorage
-from storages.utils import setting
-from urllib.parse import urljoin
+# from django.conf import settings
+# from storages.backends.gcloud import GoogleCloudStorage
+# from storages.utils import setting
+# from urllib.parse import urljoin
 
 
-class GoogleCloudMediaFileStorage(GoogleCloudStorage):
-       """
-         Google file storage class which gives a media file path from       MEDIA_URL not google generated one.
-       """
-        bucket_name = setting('GS_BUCKET_NAME')
-        def url(self, name):
-            """
-            Gives correct MEDIA_URL and not google generated url.
-            """
-            return urljoin(settings.MEDIA_URL, name)
+# class GoogleCloudMediaFileStorage(GoogleCloudStorage):
+#        """
+#          Google file storage class which gives a media file path from       MEDIA_URL not google generated one.
+#        """
+#         bucket_name = setting('GS_BUCKET_NAME')
+#         def url(self, name):
+#             """
+#             Gives correct MEDIA_URL and not google generated url.
+#             """
+#             return urljoin(settings.MEDIA_URL, name)
