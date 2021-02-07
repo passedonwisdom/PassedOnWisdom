@@ -179,4 +179,4 @@ GS_CREDENTIALS=service_account.Credentials.from_service_account_file(
 #             """
 #             Gives correct MEDIA_URL and not google generated url.
 #             """
-#             return urljoin(settings.MEDIA_URL, name)
+#             return urljoin(settings.MEDIA_URL, name) a
