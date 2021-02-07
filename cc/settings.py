@@ -155,7 +155,6 @@ DEFAULT_FILE_STORAGE='GoogleCloudMediaFileStorage'
 GS_PROJECT_ID = 'passedonwisdom'
 GS_BUCKET_NAME = 'passedonwisdom'
 MEDIA_ROOT = "media/"
-UPLOAD_ROOT = 'media/images/book/'
 MEDIA_URL = 'https://storage.googleapis.com/{}/'.format(GS_BUCKET_NAME)
 
 
