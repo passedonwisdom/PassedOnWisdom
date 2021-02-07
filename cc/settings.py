@@ -133,8 +133,7 @@ STATIC_ROOT=os.path.join(BASE_DIR,'assets')
 STATICFILES_DIRS=[
     os.path.join(BASE_DIR,'static')
 ]
-MEDIA_ROOT=os.path.join(BASE_DIR,'media')
-MEDIA_URL='/media/'
+
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -145,3 +144,39 @@ EMAIL_HOST_PASSWORD = 'passedonwisdom@54321'
 
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+#media stuff
+# MEDIA_ROOT=os.path.join(BASE_DIR,'media')
+# MEDIA_URL='/media/'
+
+# temp google cloud 
+
+DEFAULT_FILE_STORAGE='GoogleCloudMediaFileStorage'
+GS_PROJECT_ID = 'passedonwisdom'
+GS_BUCKET_NAME = 'passedonwisdom'
+MEDIA_ROOT = "media/"
+UPLOAD_ROOT = 'media/images/book/'
+MEDIA_URL = 'https://storage.googleapis.com/{}/'.format(GS_BUCKET_NAME)
+
+
+from google.oauth2 import service_account
+GS_CREDENTIALS=service_account.Credentials.from_service_account_file(
+    os.path.join(BASE_DIR,'passedonwisdom-2c12a0b77dbd.json')
+)
+
+from django.conf import settings
+from storages.backends.gcloud import GoogleCloudStorage
+from storages.utils import setting
+from urllib.parse import urljoin
+
+
+class GoogleCloudMediaFileStorage(GoogleCloudStorage):
+       """
+         Google file storage class which gives a media file path from       MEDIA_URL not google generated one.
+       """
+        bucket_name = setting('GS_BUCKET_NAME')
+        def url(self, name):
+            """
+            Gives correct MEDIA_URL and not google generated url.
+            """
+            return urljoin(settings.MEDIA_URL, name)
