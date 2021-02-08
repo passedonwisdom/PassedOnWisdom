@@ -476,7 +476,7 @@ def completedBook(request,bookId,person):
 
         #new
         recipient_list = ["passedonwisdom@gmail.com", "manish.parihar@somaiya.edu", "yash.deorah@somaiya.edu", "maru.jn@somaiya.edu", "sanyam.gandhi@somaiya.edu"] 
-        subject = 'Book '+str(book.bookName)+' was sold\n'
+        subject = 'Book '+str(book.bookName)+' was sold'
         message = 'Book ' + str(book.bookName) + ' sold. Seller was ' + book.seller.email +' the buyer was '+ Order_Book.objects.get(book=book).customer.email
         email_from = settings.EMAIL_HOST_USER 
         send_mail( subject, message, email_from, recipient_list )
