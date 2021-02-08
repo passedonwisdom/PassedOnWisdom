@@ -473,7 +473,6 @@ def completedBook(request,bookId,person):
     if(book.order_books.flag_seller_complete == '1' and Order_Book.objects.get(book=book).flag_customer_complete == '1'):
         status="sold"
         Book.objects.filter(bookId=bookId).update(status=status)
-
         #new
         recipient_list = ["passedonwisdom@gmail.com", "manish.parihar@somaiya.edu", "yash.deorah@somaiya.edu", "maru.jn@somaiya.edu", "sanyam.gandhi@somaiya.edu"] 
         subject = 'Book '+str(book.bookName)+' was sold'
