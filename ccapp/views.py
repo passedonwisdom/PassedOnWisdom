@@ -238,7 +238,7 @@ def buySuit(request):
             recipient_list = ["passedonwisdom@gmail.com", "manish.parihar@somaiya.edu", "yash.deorah@somaiya.edu", "maru.jn@somaiya.edu", "sanyam.gandhi@somaiya.edu"] 
 
             subject = 'Boiler Suit bought '+str(suit1.suitId)
-            message = 'Buyer email -'+customer.email+ -'\n Seller email -'+ suit1.seller.email+'\n suit id -'+suit1.suitId
+            message = 'Buyer email -'+customer.email+ -'\n Seller email -'+ suit1.seller.email+'\n suit id -'+str(suit1.suitId)
             email_from = settings.EMAIL_HOST_USER 
             send_mail( subject, message, email_from, recipient_list )
 
@@ -264,7 +264,7 @@ def buyCoat(request):
             recipient_list = ["passedonwisdom@gmail.com", "manish.parihar@somaiya.edu", "yash.deorah@somaiya.edu", "maru.jn@somaiya.edu", "sanyam.gandhi@somaiya.edu"] 
 
             subject = 'Coat bought '+str(coat1.coatId)
-            message = 'Buyer email -'+customer.email+'\n Seller email -'+ coat1.seller.email+'\n suit id -'+coat1.coatId
+            message = 'Buyer email -'+customer.email+'\n Seller email -'+ coat1.seller.email+'\n suit id -'+str(coat1.coatId)
             email_from = settings.EMAIL_HOST_USER 
             send_mail( subject, message, email_from, recipient_list)
             return redirect("orders")
@@ -288,7 +288,7 @@ def buyCalculator(request):
             recipient_list = ["passedonwisdom@gmail.com", "manish.parihar@somaiya.edu", "yash.deorah@somaiya.edu", "maru.jn@somaiya.edu", "sanyam.gandhi@somaiya.edu"] 
 
             subject = 'Calculator bought '+str(calc1.calculatorId)
-            message = 'Buyer email -'+customer.email+'\n Seller email -'+ calc1.seller.email+'\n Calculator id -'+calc1.calculatorId
+            message = 'Buyer email -'+customer.email+'\n Seller email -'+ calc1.seller.email+'\n Calculator id -'+str(calc1.calculatorId)
             email_from = settings.EMAIL_HOST_USER 
             send_mail( subject, message, email_from, recipient_list)
             return redirect("orders")
@@ -305,7 +305,7 @@ def buyTool(request):
 
         recipient_list = ["passedonwisdom@gmail.com", "manish.parihar@somaiya.edu", "yash.deorah@somaiya.edu", "maru.jn@somaiya.edu", "sanyam.gandhi@somaiya.edu"] 
         subject = 'Toolkit bought'
-        message = 'Buyer email -'+customer.email
+        message = 'Buyer email -'+ customer.email
         email_from = settings.EMAIL_HOST_USER 
         send_mail( subject, message, email_from, recipient_list)
         return redirect("orders")
@@ -337,7 +337,7 @@ def sellBook(request):
         #new
         recipient_list = ["passedonwisdom@gmail.com", "manish.parihar@somaiya.edu", "yash.deorah@somaiya.edu", "maru.jn@somaiya.edu", "sanyam.gandhi@somaiya.edu"] 
         subject = 'New book to verify '+str(book_obj.bookName)
-        message = 'Book ' + str(book_obj.bookName) + ' has come for verification ' + book_obj.bookId
+        message = 'Book ' + str(book_obj.bookName) + ' has come for verification ' + str(book_obj.bookId)
         email_from = settings.EMAIL_HOST_USER 
         send_mail( subject, message, email_from, recipient_list )
     return redirect("advertisements")
