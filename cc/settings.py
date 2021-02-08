@@ -148,20 +148,21 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 #media stuff
 # MEDIA_ROOT=os.path.join(BASE_DIR,'media')
-# MEDIA_URL='/media/'
+MEDIA_URL='/media/'
 
 # temp google cloud 
 
-DEFAULT_FILE_STORAGE='ccapp.gCloud.GoogleCloudMediaFileStorage'
-GS_PROJECT_ID = 'passedonwisdom'
-GS_BUCKET_NAME = 'passedonwisdom'
+# DEFAULT_FILE_STORAGE='ccapp.gCloud.GoogleCloudMediaFileStorage'
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+GS_PROJECT_ID = 'passedon'
+GS_BUCKET_NAME = 'passedon'
 MEDIA_ROOT = "media/"
-MEDIA_URL = 'https://storage.googleapis.com/{}/'.format(GS_BUCKET_NAME)
+# MEDIA_URL = 'https://storage.googleapis.com/{}/'.format(GS_BUCKET_NAME)
 
 
 from google.oauth2 import service_account
 GS_CREDENTIALS=service_account.Credentials.from_service_account_file(
-    os.path.join(BASE_DIR,'passedonwisdom-2c12a0b77dbd.json')
+    os.path.join(BASE_DIR,'passedon-09fd83b98745.json')
 )
 
 # from django.conf import settings
