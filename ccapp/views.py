@@ -18,9 +18,10 @@ def index(request):
     for book in books:
         recipient_list = [book.seller.email, ] 
         subject = 'Unfortunately your book '+str(book.bookName)+' was rejected'
-        message = 'Our quality control has rejected your book to ensure we don\' spoil the user experience. The name of the book rejected was ' + str(book.bookName) + '. Regards,\nPassed On Wisdom'
+        message = 'Our quality control has rejected your book to ensure we don\'t spoil the user experience. The rejected book name was ' + str(book.bookName) + '. \nRegards,\nPassed On Wisdom'
         email_from = settings.EMAIL_HOST_USER 
         send_mail( subject, message, email_from, recipient_list )
+        Book.objects.filter(bookId=book.bookId).delete()
 
     return render(request,"index.html")
 
@@ -238,7 +239,7 @@ def buySuit(request):
             recipient_list = ["passedonwisdom@gmail.com", "manish.parihar@somaiya.edu", "yash.deorah@somaiya.edu", "maru.jn@somaiya.edu", "sanyam.gandhi@somaiya.edu"] 
 
             subject = 'Boiler Suit bought '+str(suit1.suitId)
-            message = 'Buyer email -'+customer.email+ -'\n Seller email -'+ suit1.seller.email+'\n suit id -'+str(suit1.suitId)
+            message = 'Buyer email -'+customer.email+ '\n Seller email -'+ suit1.seller.email+'\n suit id -'+str(suit1.suitId)
             email_from = settings.EMAIL_HOST_USER 
             send_mail( subject, message, email_from, recipient_list )
 
@@ -337,7 +338,7 @@ def sellBook(request):
         #new
         recipient_list = ["passedonwisdom@gmail.com", "manish.parihar@somaiya.edu", "yash.deorah@somaiya.edu", "maru.jn@somaiya.edu", "sanyam.gandhi@somaiya.edu"] 
         subject = 'New book to verify '+str(book_obj.bookName)
-        message = 'Book ' + str(book_obj.bookName) + ' has come for verification ' + str(book_obj.bookId)
+        message = 'Book ' + str(book_obj.bookName) + ' has come for verification. \nBook seller -'+book_obj.seller.email+' \nBook id- ' + str(book_obj.bookId)
         email_from = settings.EMAIL_HOST_USER 
         send_mail( subject, message, email_from, recipient_list )
     return redirect("advertisements")
@@ -476,7 +477,7 @@ def completedBook(request,bookId,person):
         #new
         recipient_list = ["passedonwisdom@gmail.com", "manish.parihar@somaiya.edu", "yash.deorah@somaiya.edu", "maru.jn@somaiya.edu", "sanyam.gandhi@somaiya.edu"] 
         subject = 'Book '+str(book.bookName)+' was sold\n'
-        message = 'Book ' + str(book.bookName) + ' sold. Seller was ' + book.seller +' the buyer was '+ Order_Book.objects.get(book=book).customer
+        message = 'Book ' + str(book.bookName) + ' sold. Seller was ' + book.seller.email +' the buyer was '+ Order_Book.objects.get(book=book).customer.email
         email_from = settings.EMAIL_HOST_USER 
         send_mail( subject, message, email_from, recipient_list )
     return redirect(page)
