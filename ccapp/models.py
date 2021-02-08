@@ -37,6 +37,7 @@ book_status=(
     ("verified","verified"),
     ("inProcess","inProcess"),
     ("sold","sold"),
+    ("rejected","rejected"),
 ) 
 
 # using time module 

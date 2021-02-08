@@ -12,6 +12,16 @@ from django.core.mail import send_mail
 
 # Create your views here.
 def index(request):
+
+    #new
+    books=Book.objects.filter(status="rejected")
+    for book in books:
+        recipient_list = [book.seller.email, ] 
+        subject = 'Unfortunately your book '+str(book.bookName)+' was rejected'
+        message = 'Our quality control has rejected your book to ensure we don\' spoil the user experience. The name of the book rejected was ' + str(book.bookName) + '. Regards,\nPassed On Wisdom'
+        email_from = settings.EMAIL_HOST_USER 
+        send_mail( subject, message, email_from, recipient_list )
+
     return render(request,"index.html")
 
 
@@ -224,6 +234,14 @@ def buySuit(request):
             Suit.objects.filter(seller__email__contains = suit_seller,size=suit_size,gender=suit_gender,condition=suit_condition,status="inStock").update(status="inProcess")
             suit_obj=Order_Suit(customer=customer,suit=suit1)
             suit_obj.save()
+            #new
+            recipient_list = ["passedonwisdom@gmail.com", "manish.parihar@somaiya.edu", "yash.deorah@somaiya.edu", "maru.jn@somaiya.edu", "sanyam.gandhi@somaiya.edu"] 
+
+            subject = 'Boiler Suit bought '+str(suit1.suitId)
+            message = 'Buyer email -'+customer.email+ -'\n Seller email -'+ suit1.seller.email+'\n suit id -'+suit1.suitId
+            email_from = settings.EMAIL_HOST_USER 
+            send_mail( subject, message, email_from, recipient_list )
+
             return redirect("orders")
         else:
             template_name="unavailableProduct.html"
@@ -241,6 +259,14 @@ def buyCoat(request):
             Coat.objects.filter(seller__email__contains = coat_seller,size=coat_size, condition=coat_condition,status="inStock").update(status="inProcess")
             coat_obj=Order_Coat(customer=customer, coat=coat1)
             coat_obj.save()
+
+            #new mail
+            recipient_list = ["passedonwisdom@gmail.com", "manish.parihar@somaiya.edu", "yash.deorah@somaiya.edu", "maru.jn@somaiya.edu", "sanyam.gandhi@somaiya.edu"] 
+
+            subject = 'Coat bought '+str(coat1.coatId)
+            message = 'Buyer email -'+customer.email+'\n Seller email -'+ coat1.seller.email+'\n suit id -'+coat1.coatId
+            email_from = settings.EMAIL_HOST_USER 
+            send_mail( subject, message, email_from, recipient_list)
             return redirect("orders")
         else:
             template_name="unavailableProduct.html"
@@ -257,6 +283,14 @@ def buyCalculator(request):
             Calculator.objects.filter(seller__email__contains = calculator_seller, condition=calculator_condition,status="inStock").update(status="inProcess")
             calc_obj=Order_Calculator(customer=customer,calculator=calc1)
             calc_obj.save()
+            
+            #new mail
+            recipient_list = ["passedonwisdom@gmail.com", "manish.parihar@somaiya.edu", "yash.deorah@somaiya.edu", "maru.jn@somaiya.edu", "sanyam.gandhi@somaiya.edu"] 
+
+            subject = 'Calculator bought '+str(calc1.calculatorId)
+            message = 'Buyer email -'+customer.email+'\n Seller email -'+ calc1.seller.email+'\n Calculator id -'+calc1.calculatorId
+            email_from = settings.EMAIL_HOST_USER 
+            send_mail( subject, message, email_from, recipient_list)
             return redirect("orders")
         else:
             template_name="unavailableProduct.html"
@@ -268,6 +302,12 @@ def buyTool(request):
         customer=Student.objects.get(email=request.user.username)
         tool_obj=Order_Toolkit(customer=customer)
         tool_obj.save()
+
+        recipient_list = ["passedonwisdom@gmail.com", "manish.parihar@somaiya.edu", "yash.deorah@somaiya.edu", "maru.jn@somaiya.edu", "sanyam.gandhi@somaiya.edu"] 
+        subject = 'Toolkit bought'
+        message = 'Buyer email -'+customer.email
+        email_from = settings.EMAIL_HOST_USER 
+        send_mail( subject, message, email_from, recipient_list)
         return redirect("orders")
 
 
@@ -293,6 +333,13 @@ def sellBook(request):
             status=status
         )
         book_obj.save()
+
+        #new
+        recipient_list = ["passedonwisdom@gmail.com", "manish.parihar@somaiya.edu", "yash.deorah@somaiya.edu", "maru.jn@somaiya.edu", "sanyam.gandhi@somaiya.edu"] 
+        subject = 'New book to verify '+str(book_obj.bookName)
+        message = 'Book ' + str(book_obj.bookName) + ' has come for verification ' + book_obj.bookId
+        email_from = settings.EMAIL_HOST_USER 
+        send_mail( subject, message, email_from, recipient_list )
     return redirect("advertisements")
 
 @login_required(login_url="login")
@@ -377,7 +424,6 @@ def orders(request):
 
 
 
-
 @login_required(login_url="login")
 def deleteBook(request,bookId):
     seller=Student.objects.get(email=request.user.username)
@@ -426,6 +472,13 @@ def completedBook(request,bookId,person):
     if(book.order_books.flag_seller_complete == '1' and Order_Book.objects.get(book=book).flag_customer_complete == '1'):
         status="sold"
         Book.objects.filter(bookId=bookId).update(status=status)
+
+        #new
+        recipient_list = ["passedonwisdom@gmail.com", "manish.parihar@somaiya.edu", "yash.deorah@somaiya.edu", "maru.jn@somaiya.edu", "sanyam.gandhi@somaiya.edu"] 
+        subject = 'Book '+str(book.bookName)+' was sold\n'
+        message = 'Book ' + str(book.bookName) + ' sold. Seller was ' + book.seller +' the buyer was '+ Order_Book.objects.get(book=book).customer
+        email_from = settings.EMAIL_HOST_USER 
+        send_mail( subject, message, email_from, recipient_list )
     return redirect(page)
 
 @login_required(login_url="login")
