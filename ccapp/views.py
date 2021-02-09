@@ -9,8 +9,8 @@ from .models import Student, Book,Suit, Coat, Calculator, Order_Book,Order_Suit,
 from django.contrib.auth.hashers import make_password, check_password
 from django.conf import settings 
 from django.core.mail import send_mail 
-from PIL import Image as Img
-from io import StringIO
+from PIL import Image
+
 
 
 # Create your views here.
@@ -323,12 +323,19 @@ def sellBook(request):
         seller=student
         bookImage=request.FILES["book-image"]
 
-        image = Img.open(StringIO(str(bookImage.read())))
-        image.thumbnail((400, 400), Img.ANTIALIAS)
-        output = StringIO()
-        image.save(output, format='JPEG', quality=60)
-        output.seek(0)
-        bookImage=output
+        image_file = BytesIO(bookImage.file.read())
+        imageOpen=Image.open(image_file)
+        imageOpen.thumbnail((400,400),Image.ANTIALIAS)
+        image_file = BytesIO()
+        imageOpen.save(image_file, 'PNG')
+        bookImage=image
+
+        # image = Img.open(StringIO(str(bookImage.read())))
+        # image.thumbnail((400, 400), Img.ANTIALIAS)
+        # output = StringIO()
+        # image.save(output, format='JPEG', quality=60)
+        # output.seek(0)
+        # bookImage=output
         # #reduce size
         # im = Image.open(bookImage)
         # # create a BytesIO object
