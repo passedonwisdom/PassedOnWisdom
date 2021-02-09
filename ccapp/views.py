@@ -9,6 +9,9 @@ from .models import Student, Book,Suit, Coat, Calculator, Order_Book,Order_Suit,
 from django.contrib.auth.hashers import make_password, check_password
 from django.conf import settings 
 from django.core.mail import send_mail 
+from PIL import Image as Img
+import StringIO
+
 
 # Create your views here.
 def index(request):
@@ -319,6 +322,23 @@ def sellBook(request):
     if request.method == "POST" and request.FILES['book-image']:
         seller=student
         bookImage=request.FILES["book-image"]
+
+        image = Img.open(StringIO.StringIO(bookImage.read()))
+        image.thumbnail((400, 400), Img.ANTIALIAS)
+        output = StringIO.StringIO()
+        image.save(output, format='JPEG', quality=60)
+        output.seek(0)
+        bookImage=output
+        # #reduce size
+        # im = Image.open(bookImage)
+        # # create a BytesIO object
+        # im_io = BytesIO() 
+        # # save image to BytesIO object
+        # im.save(im_io, 'JPEG', quality=70) 
+        # # create a django-friendly Files object
+        # bookImage = File(im_io, name=bookImage.name)
+
+
         bookName=request.POST["book-name"]
         author=request.POST["book-author"]
         price=request.POST["book-price"]
