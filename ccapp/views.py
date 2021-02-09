@@ -9,8 +9,8 @@ from .models import Student, Book,Suit, Coat, Calculator, Order_Book,Order_Suit,
 from django.contrib.auth.hashers import make_password, check_password
 from django.conf import settings 
 from django.core.mail import send_mail 
-from PIL import Image
-from io import BytesIO
+# from PIL import Image
+# from io import BytesIO
 
 
 
@@ -324,12 +324,12 @@ def sellBook(request):
         seller=student
         bookImage=request.FILES["book-image"]
 
-        image_file = BytesIO(bookImage.file.read())
-        imageOpen=Image.open(image_file)
-        imageOpen.thumbnail((400,400),Image.ANTIALIAS)
-        image_file = BytesIO()
-        imageOpen.save(image_file, 'PNG')
-        bookImage=imageOpen
+        # image_file = BytesIO(bookImage.file.read())
+        # imageOpen=Image.open(image_file)
+        # imageOpen.thumbnail((400,400),Image.ANTIALIAS)
+        # image_file = BytesIO()
+        # imageOpen.save(image_file, 'PNG')
+        # bookImage=imageOpen
 
         # image = Img.open(StringIO(str(bookImage.read())))
         # image.thumbnail((400, 400), Img.ANTIALIAS)
