@@ -329,7 +329,7 @@ def sellBook(request):
         imageOpen.thumbnail((400,400),Image.ANTIALIAS)
         image_file = BytesIO()
         imageOpen.save(image_file, 'PNG')
-        bookImage=image
+        bookImage=imageOpen
 
         # image = Img.open(StringIO(str(bookImage.read())))
         # image.thumbnail((400, 400), Img.ANTIALIAS)
