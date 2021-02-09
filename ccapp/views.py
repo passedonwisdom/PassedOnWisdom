@@ -10,6 +10,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.conf import settings 
 from django.core.mail import send_mail 
 from PIL import Image
+from io import BytesIO
 
 
 
