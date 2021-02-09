@@ -10,7 +10,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.conf import settings 
 from django.core.mail import send_mail 
 from PIL import Image as Img
-import StringIO
+from io import StringIO
 
 
 # Create your views here.
