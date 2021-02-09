@@ -323,7 +323,7 @@ def sellBook(request):
         seller=student
         bookImage=request.FILES["book-image"]
 
-        image = Img.open(bookImage.read())
+        image = Img.open(StringIO(str(bookImage.read())))
         image.thumbnail((400, 400), Img.ANTIALIAS)
         output = StringIO()
         image.save(output, format='JPEG', quality=60)
