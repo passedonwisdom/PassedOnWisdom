@@ -62,7 +62,7 @@ class Book(models.Model):
     status=models.CharField(max_length = 10, choices = book_status, default = 'pending') 
     timestamp=models.DateTimeField(auto_now_add=True)
     def __str__(self):
-        return self.bookName+"_"+self.seller.email
+        return self.bookName+"_"+self.seller.email+"_"+self.status
 
 coat_status=(
     ("inStock","inStock"),
