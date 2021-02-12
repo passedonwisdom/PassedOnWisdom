@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import json
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -159,11 +160,11 @@ GS_BUCKET_NAME = 'passedon'
 MEDIA_ROOT = "media/"
 # MEDIA_URL = 'https://storage.googleapis.com/{}/'.format(GS_BUCKET_NAME)
 
-
+credentials_raw = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
+service_account_info = json.loads(credentials_raw)
 from google.oauth2 import service_account
-GS_CREDENTIALS=service_account.Credentials.from_service_account_file(
-    os.path.join(BASE_DIR,'passedon-09fd83b98745.json')
-)
+GS_CREDENTIALS=service_account.Credentials.from_service_account_info(
+    service_account_info)
 
 # from django.conf import settings
 # from storages.backends.gcloud import GoogleCloudStorage
