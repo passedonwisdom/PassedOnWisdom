@@ -364,7 +364,7 @@ def sellBook(request):
         book_obj.save()
 
         #new
-        recipient_list = ["passedonwisdom@gmail.com", "manish.parihar@somaiya.edu", "yash.deorah@somaiya.edu", "maru.jn@somaiya.edu", "sanyam.gandhi@somaiya.edu"] 
+        recipient_list = ["passedonwisdom@gmail.com",] 
         subject = 'New book to verify '+str(book_obj.bookName)
         message = 'Book ' + str(book_obj.bookName) + ' has come for verification. \nBook seller -'+book_obj.seller.email+' \nBook id- ' + str(book_obj.bookId)
         email_from = settings.EMAIL_HOST_USER 
@@ -502,7 +502,7 @@ def completedBook(request,bookId,person):
         status="sold"
         Book.objects.filter(bookId=bookId).update(status=status)
         #new
-        recipient_list = ["passedonwisdom@gmail.com", "manish.parihar@somaiya.edu", "yash.deorah@somaiya.edu", "maru.jn@somaiya.edu", "sanyam.gandhi@somaiya.edu"] 
+        recipient_list = ["passedonwisdom@gmail.com",] 
         subject = 'Book '+str(book.bookName)+' was sold'
         message = 'Book ' + str(book.bookName) + ' sold. Seller was ' + book.seller.email +' the buyer was '+ Order_Book.objects.get(book=book).customer.email
         email_from = settings.EMAIL_HOST_USER 
