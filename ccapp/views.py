@@ -664,7 +664,7 @@ def login(request):
             return HttpResponse("Logged In !!")
         
         else:
-            messages.info(request, 'Invalid credentials')
+            messages.info(request, 'Invalid credential')
             return redirect('login')
 
     else:
