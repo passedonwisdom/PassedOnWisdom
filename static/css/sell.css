@@ -1,0 +1,363 @@
+*:focus{
+    outline: none !important;
+  }
+  #sellpage {
+    border-bottom: #B54D47 0.2vw solid;
+  }
+  #main{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+  }
+  @keyframes fade {
+    0% {
+      opacity: 0
+    }
+    100% {
+      opacity: 1
+    }
+  }
+  .tab {
+    float: left;
+    background-color: #fff;
+    width: 20%;
+    height: 50vh;
+    padding-top: 5vh;
+    position: fixed;
+    top: 5vh;
+    animation: fade 0.7s linear;
+  }
+  .tab button {
+    display: block;
+    background-color: inherit;
+    color: #333;
+    padding: 12px 16px;
+    width: 100%;
+    border: none;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 18px;
+  }
+
+  .tab button:hover {
+    background-color: #eee;
+  }
+  .tab button.active {
+    background-color: #ddd;
+    color: #B54D47;
+  }
+  .tabcontent {
+    width: 65%;
+    min-height: 120vh;
+    background-color: #fff;
+    margin: 2vw 5% 3vw 25%;
+    overflow: hidden;
+    display: block;
+    padding: 1% 2%;
+    animation: fade 0.7s linear;
+  }
+
+  hr {
+    border-top: 0.1px solid #B54D47;
+    width: 60%;
+    margin: 3% auto 5% auto;
+  }
+
+  input {
+    width: 100%;
+    display: block;
+    font-size: 16px;
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid #aaa;
+    color: #666;
+    margin-bottom: 2vw;
+    -moz-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    -webkit-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+    background-color: #fff;
+  }
+  input:focus {
+    outline: 0;
+    border-color: #B54D47;
+  }
+  label {
+    font-size: 18px;
+    font-weight: bold;
+    color: #666;
+    margin-bottom: 10px;
+  }
+  .button {
+    width: 100%;
+    border: 0;
+    outline: none;
+    border-radius: 0;
+    padding: 10px 0;
+    font-size: 18px;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: 3px solid #B54D47;
+    border-radius: 5px;
+    color: #B54D47;
+    cursor: pointer;
+    -moz-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    -webkit-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+  }
+  .button:hover, .button:focus {
+    background: #B54D47;
+    color: white;
+  }  
+  ::placeholder {
+    opacity: 0.7;
+  }
+  select {
+    color: #666;
+    border: 1px solid #aaa;
+  }
+  .muted-text {
+    color: #aaa;
+    font-size: 14px;
+    margin: 1% auto;
+  }
+
+
+  /* MODAL CSS */
+
+  .container {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.8);
+    padding-top: 75px;
+    animation: fadeEffect 0.5s;
+    zoom: 0.9;
+  }
+  
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: #fff;
+    margin: 2% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    width: 60%; /* Could be more or less, depending on screen size */
+    padding: 5px 2% 5px 2%;
+  }
+   
+  /* The Modal Close Button (x) */
+  .close {
+    position: absolute;
+    right: 35px;
+    top: 15px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #fff;
+    line-height: 60px;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #f44336;
+    cursor: pointer;
+    transform: rotateZ(360deg);
+    transition: transform 0.2s linear;
+  }
+  
+  /* Clear floats */
+  .clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  
+  .modalHeading{
+    font-size: 30px;
+    margin: 0 auto 25px auto;
+    text-align: left;
+  }
+  .container > hr{
+    border-bottom: 0.5px solid #B54D47;
+          margin: 25px auto;
+  }
+  .modalText{
+    font-size: 18px;
+    text-align: left;
+    margin: 25px auto;
+  }
+  
+  .cancelbtn{
+    margin: 12px 20px 0px 20px;
+    padding: 9px;
+    width: 20%;
+    font-size: 18px;
+    float: right;
+    border: 2px solid #B54D47;
+    border-radius: 30px;
+    background-color: #fff;
+    color: #B54D47;
+  }
+  .confirmbtn {
+    margin: 12px 20px 0px 20px;
+    padding: 9px;
+    width: 20%;
+    font-size: 18px;
+    float: right;
+    border: 2px solid #20a000;
+    border-radius: 30px;
+    background-color: #fff;
+    color: #20a000;
+  }
+   .cancelbtn:hover, .cancelbtn:active{
+    border: 2px solid #B54D47;
+          background-color: #B54D47;
+          color: #fff;
+          cursor: pointer;
+          transition: background-color 0.3s linear;
+  }
+  .confirmbtn:hover, .confirmbtn:active{
+    border: 2px solid #20a000;
+          background-color: #20a000;
+          color: #fff;
+          cursor: pointer;
+          transition: background-color 0.3s linear;
+  }
+
+  .radio-label{
+    display: inline-block;
+    outline: none;
+    padding: 5px 5px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    border: 3px solid #2255a4;
+    border-radius: 7px;
+    color: #2255a4;
+    cursor: pointer;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    letter-spacing: 2px;
+    margin: auto 4px 10px 4px;
+    text-align: center;
+    min-width: 30px !important;
+    zoom: 0.9;
+  }
+  .radio-label:hover{background: #2255a4; color: #fff;}
+  
+  input[type="radio"] {
+    display: none;
+  }
+  
+  input:checked+label{
+    background: #2255a4 !important; color: #fff !important;}
+  
+    #warning{
+      margin: 5%;
+      padding: 5%;
+      color: #B54D47;
+      border: 3px solid #B54D47;
+      border-radius: 25px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+  /* MEDIA QUERIES */
+
+  @media screen and (max-width: 1045px) {
+    h1 {
+      font-size: 21px;
+    }
+  }
+
+  @media screen and (max-width: 700px) {
+    .tab {
+      top: 25vh;
+      zoom: 0.9;
+      width: 30%;
+    }
+    .tabcontent {
+      zoom: 0.8;
+      width: 55%;
+      margin-left: 35%;
+    }
+    #main{
+      min-height: 75vh;
+    }
+    .modal{
+      zoom: 0.8;
+    }
+    .modal-content{
+      width: 80%;
+    }
+    .cancelbtn{
+      border-radius: 25px;
+    }
+    .confirmbtn {
+      border-radius: 25px;
+    }
+  }
+
+  @media screen and (max-width: 440px) {
+    .tab {
+      zoom: 0.8;
+      top: 15vh;
+    }
+    .tabcontent {
+      zoom: 0.75;
+      margin-left: 32%;
+    }
+    .modal-content{
+      width: 80%;
+      zoom: 0.9;
+    }
+    .modalHeading{
+      font-size: 25px;
+      margin: 0 auto 20px auto;
+    }
+    .container > hr{
+      margin: 20px auto;
+    }
+    .modalText{
+      margin: 20px auto;
+    }
+    
+    .cancelbtn{
+      margin: 12px 20px 0px 20px;
+      padding: 12px;
+      width: 25%;
+    }
+    .confirmbtn {
+      margin: 12px 20px 0px 20px;
+      padding: 12px;
+      width: 25%;
+    }
+  }
+
+  @media screen and (max-width: 340px) {
+    .tab {
+      zoom: 0.7;
+    }
+    .tabcontent {
+      zoom: 0.65;
+    }
+    .modal-content{
+      zoom: 1.2;
+      width: 80%;
+    }
+  
+  }

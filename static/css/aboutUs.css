@@ -1,0 +1,112 @@
+*{
+    box-sizing: border-box;
+    border: none;
+}
+#aboutpage {
+    border-bottom: #B54D47 0.2vw solid;
+}
+.hr {
+    border-bottom: 0.5px solid #B54D47;
+    margin: -10px auto 10px auto;
+    width: 60%;
+    }
+#main{
+    width: 100%;
+    margin: 0;
+    min-height: 85vh;
+    background: #fff;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1.75fr;
+}
+.about-div{
+    padding: 2% 5%;
+    font-weight: 600;
+    line-height: 24px;
+    text-align: justify;
+}
+.profile-outer{
+    background: #efefef;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-gap: 3.5% 2%;
+    padding: 2%;
+}
+.profile-inner{
+    background: #fff;
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    grid-gap: 3%;
+    padding: 0% 2%;
+    align-items: center;
+    zoom: 0.9;
+    box-shadow: 2px 0 5px 0 #bbb;
+}
+.profile-inner:hover{
+    transform: scale(1.01);
+    transition: transform 0.3s linear;
+}
+.image-cover{
+    margin: 0;
+    padding: 5%;
+    background-color: #B54D47;
+    align-content: center;
+}
+.image-cover img{
+    transform: translateX(-15px);
+    width: 110%;
+}
+i{
+    margin: 0 5%;
+    color: #B54D47;
+}
+b{
+    color: #B54D47;
+    font-weight: 900;
+}
+.p::first-letter{
+    font-size: 200%;
+}
+
+
+
+@media screen and (max-width: 991px){
+    #main{
+        grid-template-columns: 1fr 1fr;
+    }
+    .profile-outer{
+        grid-template-columns: 1fr;
+        padding-bottom: 20%;
+    }
+    .profile-inner{
+        zoom: 0.8;
+    }
+}
+@media screen and (max-width: 700px){
+    #main{
+        grid-template-columns: 1fr;
+    }
+    .profile-outer{
+        grid-template-columns: 1fr 1fr;
+        padding-bottom: 10%;
+    }
+}
+@media screen and (max-width: 590px){
+    #main{
+        grid-template-columns: 1fr;
+    }
+    .profile-outer{
+        grid-template-columns: 1fr;
+        padding-bottom: 20%;
+    }
+    .about-div{
+        font-size: small;
+    }
+}
+@media screen and (max-width: 460px){
+    .profile-outer{
+        padding-bottom: 40%;
+    }
+}

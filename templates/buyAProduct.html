@@ -25,14 +25,15 @@
 
 <div id="books" class="tabcontent" style="display: grid;">
   <div id="searchDiv">
-    <input type="text" name="bookSearch" id="bookSearch" placeholder="Search by Name or Author of the Book"><button id="searchButton">Search</button>
+    <input type="text" name="bookSearch" id="bookSearch" placeholder="Search by Name or Author of the Book">
+    <button id="searchButton" onclick="search()">Search</button>
   </div>
 
   <!-- Repeat the following Code for all the books -->
   
 
   {% for book in books %}
-  <div class="bookAd">
+  <div class="bookAd" id="id{{forloop.counter}}">
     <div id="imageSpan">
       {% if book.bookImage %}
       <img src="{{book.bookImage.url}}" alt="">
@@ -199,7 +200,7 @@
         <label for="calculator-condition-u">Used</label>
         <input type="radio" name="calculator-condition" value="new" id="calculator-condition-n" disabled require>
         <label for="calculator-condition-n" style="color: grey; border-color: grey; cursor: not-allowed; background: #fff;">New</label><br><br>
-        <span class="productPrice" style="zoom: 0.8;"><span id="calculator-price">Rs. 700</span>
+        <span class="productPrice" style="zoom: 0.8;"><span id="calculator-price">Rs. 650</span>
         <button id="buyButton" type="button" onclick="calculator()" >Buy Now</button></span>
 <!-- Calculator Modal -->
         <div id="calculator-modal" class="modal" name="modalname">
@@ -209,7 +210,7 @@
               <h1 class="modalHeading">Do you want to buy the Scientific Calculator?</h1><hr>
               <p class="modalText">On Clicking "Confirm", We will Contact You for Receiving the Delivery of the Calculator</p>
               <h4 id="calculator-condition-modal">Condition: Used</h4>
-              <h4 id="calculator-price-modal">Price: Rs. 700</h4>
+              <h4 id="calculator-price-modal">Price: Rs. 650</h4>
               <h4 id="calculator-payment-modal">Payment: Cash On Delivery</h4>
               <div class="clearfix">
                 {% if user.is_authenticated %}
@@ -239,7 +240,7 @@
       <form action="buyTool" method="POST">
         {% csrf_token %}
         <span class="productPrice" style="zoom: 0.8;"><span id="toolkit-price">Rs. 120</span>
-        <button id="buyButton" type="button" onclick="toolkit()" >Buy Now</button></span>
+        <button id="buyButton" type="button" onclick="toolkit()" disabled style="cursor:not-allowed">Buy Now</button></span>
 <!-- Toolkit Modal -->
         <div id="toolkit-modal" class="modal" name="modalname">
           <span onclick="document.getElementById('toolkit-modal').style.display='none'" class="close" title="Close Modal">X</span>
@@ -297,9 +298,9 @@
       }
       }
     }
-    </script>
+  </script>
 
-    <script>
+  <script>
       function suit(){
         var size1 = document.getElementsByName('suit-size'); 
         var gender = document.getElementsByName('suit-gender');
@@ -396,6 +397,27 @@
 
       function toolkit(){
               document.getElementById('toolkit-modal').style.display='block';
+      }
+  </script>
+  <script>
+      function search(){
+        var search = document.getElementById("bookSearch").value.toUpperCase();
+
+        var i = 0;
+        var book = new Array();
+        var author = new Array();
+        for(i=0; i< document.getElementsByClassName("bookName").length; i++){
+          book[i] = document.getElementsByClassName("bookName")[i].innerHTML;
+          author[i] = document.getElementsByClassName("bookAuthor")[i].innerHTML;
+
+          if(book[i].toUpperCase().indexOf(search) > -1 || author[i].toUpperCase().indexOf(search) > -1){
+            document.getElementsByClassName("bookName")[i].parentElement.style.display = "block";
+          }
+          else{
+            document.getElementsByClassName("bookName")[i].parentElement.style.display = "none";
+          }
+        }
+
       }
     </script>
 {% endblock %}

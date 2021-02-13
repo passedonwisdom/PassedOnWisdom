@@ -1,0 +1,39 @@
+#main{
+    width: 90%;
+    margin: 2% auto;
+    min-height: 70vh;
+    background: #efefef;
+    padding: 2% 2% 5% 2%;
+    animation: fade 0.7s linear;
+    font-size: 22px;
+    line-height: 35px;
+    text-align: justify;
+}
+ul{
+  padding-left: 20px;
+}
+@keyframes fade {
+    0% {
+      opacity: 0
+    }
+    100% {
+      opacity: 1
+    }
+  }
+
+hr{
+    border-bottom: 0.5px solid #B54D47;
+    margin: -10px auto 0px auto;
+    width: 60%;
+  }
+
+  @media screen and (max-width: 700px){
+    #main{
+      font-size: 16px;
+      line-height: 22px;
+    }
+  }
+
+  #aboutpage {
+    border-bottom: #B54D47 0.2vw solid;
+}
