@@ -156,7 +156,7 @@ MEDIA_URL='/media/'
 # DEFAULT_FILE_STORAGE='ccapp.gCloud.GoogleCloudMediaFileStorage'
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 GS_PROJECT_ID = 'passedon'
-GS_BUCKET_NAME = 'passedon'
+GS_BUCKET_NAME = 'passedon3'
 MEDIA_ROOT = "media/"
 # MEDIA_URL = 'https://storage.googleapis.com/{}/'.format(GS_BUCKET_NAME)
 
