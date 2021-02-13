@@ -240,7 +240,7 @@ def buySuit(request):
             suit_obj=Order_Suit(customer=customer,suit=suit1)
             suit_obj.save()
             #new
-            recipient_list = ["passedonwisdom@gmail.com", "manish.parihar@somaiya.edu", "yash.deorah@somaiya.edu", "maru.jn@somaiya.edu", "sanyam.gandhi@somaiya.edu"] 
+            recipient_list = ["passedonwisdom@gmail.com",] 
 
             subject = 'Boiler Suit bought '+str(suit1.suitId)
             message = 'Buyer email -'+customer.email+ '\n Seller email -'+ suit1.seller.email+'\n suit id -'+str(suit1.suitId)
@@ -266,7 +266,7 @@ def buyCoat(request):
             coat_obj.save()
 
             #new mail
-            recipient_list = ["passedonwisdom@gmail.com", "manish.parihar@somaiya.edu", "yash.deorah@somaiya.edu", "maru.jn@somaiya.edu", "sanyam.gandhi@somaiya.edu"] 
+            recipient_list = ["passedonwisdom@gmail.com",] 
 
             subject = 'Coat bought '+str(coat1.coatId)
             message = 'Buyer email -'+customer.email+'\n Seller email -'+ coat1.seller.email+'\n suit id -'+str(coat1.coatId)
@@ -290,7 +290,7 @@ def buyCalculator(request):
             calc_obj.save()
             
             #new mail
-            recipient_list = ["passedonwisdom@gmail.com", "manish.parihar@somaiya.edu", "yash.deorah@somaiya.edu", "maru.jn@somaiya.edu", "sanyam.gandhi@somaiya.edu"] 
+            recipient_list = ["passedonwisdom@gmail.com",] 
 
             subject = 'Calculator bought '+str(calc1.calculatorId)
             message = 'Buyer email -'+customer.email+'\n Seller email -'+ calc1.seller.email+'\n Calculator id -'+str(calc1.calculatorId)
@@ -308,7 +308,7 @@ def buyTool(request):
         tool_obj=Order_Toolkit(customer=customer)
         tool_obj.save()
 
-        recipient_list = ["passedonwisdom@gmail.com", "manish.parihar@somaiya.edu", "yash.deorah@somaiya.edu", "maru.jn@somaiya.edu", "sanyam.gandhi@somaiya.edu"] 
+        recipient_list = ["passedonwisdom@gmail.com",] 
         subject = 'Toolkit bought'
         message = 'Buyer email -'+ customer.email
         email_from = settings.EMAIL_HOST_USER 
