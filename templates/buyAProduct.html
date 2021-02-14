@@ -33,7 +33,7 @@
   
 
   {% for book in books %}
-  <div class="bookAd" id="id{{forloop.counter}}">
+  <div class="bookAd">
     <div id="imageSpan">
       {% if book.bookImage %}
       <img src="{{book.bookImage.url}}" alt="">

@@ -42,16 +42,15 @@ book_status=(
 ) 
 
 # using time module 
-# import time 
-import uuid
+import time 
 
 # ts stores the time in seconds 
 
 
 def upload_location(instance, filename):
-    ts = uuid.uuid4()
+    ts = time.time() 
     filebase, extension = filename.split('.')
-    return '%s.%s' % (str(ts), extension)
+    return 'images/book/%s.%s' % (filebase+str(ts), extension)
 
 class Book(models.Model):
     seller=models.ForeignKey(Student,on_delete=models.CASCADE,related_name="books")
