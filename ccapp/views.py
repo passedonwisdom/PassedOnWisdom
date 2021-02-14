@@ -364,7 +364,7 @@ def sellBook(request):
         book_obj.save()
 
         #new
-        recipient_list = ["passedonwisdom@gmail.com",] 
+        recipient_list = ["passedonwisdom@gmail.com"] 
         subject = 'New book to verify '+str(book_obj.bookName)
         message = 'Book ' + str(book_obj.bookName) + ' has come for verification. \nBook seller -'+book_obj.seller.email+' \nBook id- ' + str(book_obj.bookId)
         email_from = settings.EMAIL_HOST_USER 
