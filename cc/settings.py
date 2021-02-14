@@ -160,11 +160,18 @@ GS_BUCKET_NAME = 'passedon3'
 MEDIA_ROOT = "media/"
 # MEDIA_URL = 'https://storage.googleapis.com/{}/'.format(GS_BUCKET_NAME)
 
-credentials_raw = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
-service_account_info = json.loads(credentials_raw)
+
 from google.oauth2 import service_account
-GS_CREDENTIALS=service_account.Credentials.from_service_account_info(
-    service_account_info)
+credentials_raw = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
+print(credentials_raw)
+if credentials_raw:
+    service_account_info = json.loads(credentials_raw)
+    GS_CREDENTIALS=service_account.Credentials.from_service_account_info(
+        service_account_info)
+else:
+    GS_CREDENTIALS=service_account.Credentials.from_service_account_file(
+    os.path.join(BASE_DIR,'key/passedon-09fd83b98745.json'))
+
 
 # from django.conf import settings
 # from storages.backends.gcloud import GoogleCloudStorage
