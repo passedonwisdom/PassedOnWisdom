@@ -35,9 +35,9 @@
   {% for book in books %}
   <div class="bookAd">
     <div id="imageSpan">
-      <!-- {% if book.bookImage %} -->
+      {% if book.bookImage %}
       <img src="{{book.bookImage.url}}" alt="">
-      <!-- {% endif %} -->
+      {% endif %}
     </div>
     <span class="bookName">{{book.bookName}}</span>
     <span class="bookAuthor">{{book.author}}</span><hr>
