@@ -11,7 +11,7 @@ from django.conf import settings
 from django.core.mail import send_mail 
 # from PIL import Image
 # from io import BytesIO
-
+from django.core.files.storage import default_storage
 
 
 # Create your views here.
@@ -24,7 +24,8 @@ def index(request):
         subject = 'Unfortunately your book '+str(book.bookName)+' was rejected'
         message = 'Our quality control has rejected your book to ensure we don\'t spoil the user experience. The rejected book name was ' + str(book.bookName) + '. \nRegards,\nPassed On Wisdom'
         email_from = settings.EMAIL_HOST_USER 
-        send_mail( subject, message, email_from, recipient_list )
+        # send_mail( subject, message, email_from, recipient_list )
+        default_storage.delete(book.bookImage)
         Book.objects.filter(bookId=book.bookId).delete()
 
     return render(request,"index.html")
