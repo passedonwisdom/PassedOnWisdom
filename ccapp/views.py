@@ -25,7 +25,7 @@ def index(request):
         message = 'Our quality control has rejected your book to ensure we don\'t spoil the user experience. The rejected book name was ' + str(book.bookName) + '. \nRegards,\nPassed On Wisdom'
         email_from = settings.EMAIL_HOST_USER 
         # send_mail( subject, message, email_from, recipient_list )
-        default_storage.delete(book.bookImage)
+        default_storage.delete(book.bookImage.url)
         Book.objects.filter(bookId=book.bookId).delete()
 
     return render(request,"index.html")
