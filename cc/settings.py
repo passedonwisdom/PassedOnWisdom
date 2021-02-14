@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import json
-
+import socket
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -28,7 +28,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['passedonwisdom.herokuapp.com','127.0.0.1']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -42,8 +41,10 @@ INSTALLED_APPS = [
     'storages'
 ]
 
-SECURE_SSL_REDIRECT = True # [1]
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+print(socket.gethostname())
+if (socket.gethostname()!='LAPTOP-JP8NL3R2'):
+    SECURE_SSL_REDIRECT = True # [1]
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -163,7 +164,6 @@ MEDIA_ROOT = "media/"
 
 from google.oauth2 import service_account
 credentials_raw = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
-print(credentials_raw)
 if credentials_raw:
     service_account_info = json.loads(credentials_raw)
     GS_CREDENTIALS=service_account.Credentials.from_service_account_info(
