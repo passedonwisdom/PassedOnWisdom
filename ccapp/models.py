@@ -51,7 +51,7 @@ import uuid
 def upload_location(instance, filename):
     ts = uuid.uuid4()
     filebase, extension = filename.split('.')
-    return 'images/book/%s.%s' % (str(ts), extension)
+    return '%s.%s' % (str(ts), extension)
 
 class Book(models.Model):
     seller=models.ForeignKey(Student,on_delete=models.CASCADE,related_name="books")
