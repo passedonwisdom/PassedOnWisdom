@@ -3,6 +3,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator , MinValueValidator
 # from django.core.files.storage import default_storage
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill
 
 year_choices = ( 
     ("FY","FY"), 
