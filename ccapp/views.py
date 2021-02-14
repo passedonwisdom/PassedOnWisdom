@@ -355,7 +355,7 @@ def sellBook(request):
         status="pending"
         book_obj=Book.objects.create(
             seller=seller,
-            bookImageRaw=bookImage,
+            bookImage=bookImage,
             bookName=bookName,
             author=author,
             price=price,
