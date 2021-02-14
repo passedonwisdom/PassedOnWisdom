@@ -58,7 +58,12 @@ def upload_location(instance, filename):
 class Book(models.Model):
     seller=models.ForeignKey(Student,on_delete=models.CASCADE,related_name="books")
     bookId = models.AutoField(primary_key=True)
-    bookImage=models.ImageField(upload_to=upload_location,null=True,blank=True,default="images/book/defaultBook.jpg")
+    bookImageRaw=models.ImageField(upload_to=upload_location,null=True,blank=True,default="images/book/defaultBook.jpg")
+    bookImage=ImageSpecField(source='bookImageRaw',
+                                      processors=[ResizeToFill(400, 400)],
+                                      format='JPEG',
+                                      options={'quality': 80})
+
     bookName=models.CharField(max_length=255)
     author=models.CharField(max_length=255)
     price=models.DecimalField(max_digits=6,decimal_places=2)
