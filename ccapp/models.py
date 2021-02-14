@@ -2,6 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator , MinValueValidator
+from django.core.files.storage import default_storage
 
 year_choices = ( 
     ("FY","FY"), 
@@ -61,6 +62,8 @@ class Book(models.Model):
     description=models.TextField(blank=True)
     status=models.CharField(max_length = 10, choices = book_status, default = 'pending') 
     timestamp=models.DateTimeField(auto_now_add=True)
+    def delete(self):
+        default_storage.delete("{0}".format(self.bookImage.url))
     def __str__(self):
         return self.bookName+"_"+self.seller.email+"_"+self.status
 
