@@ -459,6 +459,7 @@ def deleteBook(request,bookId):
     seller=Student.objects.get(email=request.user.username)
     book= Book.objects.get(bookId=bookId)
     if((book.status=="verified" or book.status=="pending") and book.seller.email == request.user.username):
+        default_storage.delete(book.bookImage.name)
         Book.objects.filter(bookId=bookId).delete()
     return redirect("advertisements")
 
