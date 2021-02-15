@@ -146,7 +146,7 @@ EMAIL_HOST_USER = 'passedonwisdom@gmail.com'
 EMAIL_HOST_PASSWORD = 'campusCompany@321'
 
 
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 #media stuff
 # MEDIA_ROOT=os.path.join(BASE_DIR,'media')
