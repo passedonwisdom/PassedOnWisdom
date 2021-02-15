@@ -237,7 +237,8 @@ def buySuit(request):
         if(Suit.objects.filter(size=suit_size,gender=suit_gender,condition=suit_condition,status="inStock").exists()):
             suit1=Suit.objects.filter(size=suit_size,gender=suit_gender,condition=suit_condition,status="inStock")[0]
             suit_seller=suit1.seller.email
-            Suit.objects.filter(seller__email__contains = suit_seller,size=suit_size,gender=suit_gender,condition=suit_condition,status="inStock").update(status="inProcess")
+            suit_id=suit1.suitId
+            Suit.objects.filter(suitId=suit_id, seller__email__contains = suit_seller,size=suit_size,gender=suit_gender,condition=suit_condition,status="inStock").update(status="inProcess")
             suit_obj=Order_Suit(customer=customer,suit=suit1)
             suit_obj.save()
             #new
@@ -262,7 +263,8 @@ def buyCoat(request):
         if(Coat.objects.filter(size=coat_size, condition=coat_condition, status="inStock").exists()):
             coat1=Coat.objects.filter(size=coat_size, condition=coat_condition,status="inStock")[0]
             coat_seller=coat1.seller.email
-            Coat.objects.filter(seller__email__contains = coat_seller,size=coat_size, condition=coat_condition,status="inStock").update(status="inProcess")
+            coat_id=coat1.coatId
+            Coat.objects.filter(coatId=coat_id,seller__email__contains = coat_seller,size=coat_size, condition=coat_condition,status="inStock").update(status="inProcess")
             coat_obj=Order_Coat(customer=customer, coat=coat1)
             coat_obj.save()
 
@@ -286,7 +288,8 @@ def buyCalculator(request):
         if(Calculator.objects.filter(condition=calculator_condition,status="inStock").exists()):
             calc1=Calculator.objects.filter(condition=calculator_condition,status="inStock")[0]
             calculator_seller=calc1.seller.email
-            Calculator.objects.filter(seller__email__contains = calculator_seller, condition=calculator_condition,status="inStock").update(status="inProcess")
+            calculator_id=calc1.calculatorId
+            Calculator.objects.filter(calculatorId=calculator_id,seller__email__contains = calculator_seller, condition=calculator_condition,status="inStock").update(status="inProcess")
             calc_obj=Order_Calculator(customer=customer,calculator=calc1)
             calc_obj.save()
             
