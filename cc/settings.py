@@ -50,7 +50,6 @@ if (socket.gethostname()!='LAPTOP-JP8NL3R2'):
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -129,7 +128,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-WHITENOISE_USE_FINDERS=True
+#WHITENOISE_USE_FINDERS=True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
