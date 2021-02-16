@@ -190,4 +190,4 @@ else:
 #             """
 #             Gives correct MEDIA_URL and not google generated url.
 #             """
-#             return urljoin(settings.MEDIA_URL, name) a
+#             return urljoin(settings.MEDIA_URL, name)  a
