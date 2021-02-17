@@ -29,7 +29,11 @@
   </div>
 
   <!-- Repeat the following Code for all the books -->
-
+  {% if books.count == 0 %}
+  <div id="searchDiv">
+  <h2>Sorry! There are currently no books uploaded....</h2>
+  </div>
+  {% endif %}
 
   {% for book in books %}
   <div class="bookAd">
