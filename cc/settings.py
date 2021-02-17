@@ -21,8 +21,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = '-(aj!gv6h(x*d27$(ss&5v8&i&^6ze0m*ozllibrpiplo98)ee'
-SECRET_KEY=os.environ.get('SECRET_KEY')
+SECRET_KEY = '-(aj!gv6h(x*d27$(ss&5v8&i&^6ze0m*ozllibrpiplo98)ee'
+# SECRET_KEY=os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -44,7 +44,7 @@ INSTALLED_APPS = [
 ]
 
 print(socket.gethostname())
-if (socket.gethostname()!='LAPTOP-JP8NL3R2'):
+if (socket.gethostname()!='LAPTOP-JP8NL3R2' and socket.gethostname()!='LAPTOP-DIP2LL2J'):
     SECURE_SSL_REDIRECT = True # [1]
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
