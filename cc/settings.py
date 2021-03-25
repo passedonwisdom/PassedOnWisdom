@@ -145,7 +145,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'passedonwisdom@gmail.com' 
-EMAIL_HOST_PASSWORD = 'campusCompany@321'
+EMAIL_HOST_PASSWORD = os.environ.get('GMAIL_KEY')
 
 
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -172,7 +172,7 @@ if credentials_raw:
         service_account_info)
 else:
     GS_CREDENTIALS=service_account.Credentials.from_service_account_file(
-    os.path.join(BASE_DIR,'key/passedon-09fd83b98745.json'))
+    os.path.join(BASE_DIR,'key/passedonfinal-d2f9878cce41.json'))
 
 
 # from django.conf import settings

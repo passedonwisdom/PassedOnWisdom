@@ -12,7 +12,7 @@ from django.core.mail import send_mail
 # from PIL import Image
 # from io import BytesIO
 from django.core.files.storage import default_storage
-
+from smtplib import SMTPException
 
 # Create your views here.
 def index(request):
@@ -24,7 +24,12 @@ def index(request):
         subject = 'Unfortunately your book '+str(book.bookName)+' was rejected'
         message = 'Our quality control has rejected your book to ensure we don\'t spoil the user experience. The rejected book name was ' + str(book.bookName) + '. \nRegards,\nPassed On Wisdom'
         email_from = settings.EMAIL_HOST_USER 
-        send_mail( subject, message, email_from, recipient_list )
+        
+        try:
+            send_mail( subject, message, email_from, recipient_list )
+        except SMTPException as e:
+            print('There was an error sending an email: ', e) 
+        
         default_storage.delete(book.bookImage.name)
         Book.objects.filter(bookId=book.bookId).delete()
 
@@ -96,7 +101,12 @@ def signup(request):
             message = 'Helloo ' +str(fullName) + ' Welcome to passed on wisdom.'
             email_from = settings.EMAIL_HOST_USER 
             recipient_list = [email, ] 
-            send_mail( subject, message, email_from, recipient_list )
+            try:
+                send_mail( subject, message, email_from, recipient_list )
+            except SMTPException as e:
+                print('There was an error sending an email: ', e) 
+        
+
             return redirect("login")
     template_name = 'login.html'
     context={'err':err}
@@ -222,7 +232,10 @@ def buyBook(request,bookId):
     message = 'Someone has booked your book named ' + str(book.bookName) + '. Hurry up and check it asap!!!!'
     email_from = settings.EMAIL_HOST_USER 
     recipient_list = [book.seller.email, ] 
-    send_mail( subject, message, email_from, recipient_list )
+    try:
+        send_mail( subject, message, email_from, recipient_list )
+    except SMTPException as e:
+        print('There was an error sending an email: ', e) 
     return redirect("orders")
 
 
@@ -246,8 +259,13 @@ def buySuit(request):
 
             subject = 'Boiler Suit bought '+str(suit1.suitId)
             message = 'Buyer email -'+customer.email+ '\n Seller email -'+ suit1.seller.email+'\n suit id -'+str(suit1.suitId)
-            email_from = settings.EMAIL_HOST_USER 
-            send_mail( subject, message, email_from, recipient_list )
+            email_from = settings.EMAIL_HOST_USER
+            
+            try:
+                send_mail( subject, message, email_from, recipient_list )
+            except SMTPException as e:
+                print('There was an error sending an email: ', e) 
+            
 
             return redirect("orders")
         else:
@@ -274,7 +292,12 @@ def buyCoat(request):
             subject = 'Coat bought '+str(coat1.coatId)
             message = 'Buyer email -'+customer.email+'\n Seller email -'+ coat1.seller.email+'\n suit id -'+str(coat1.coatId)
             email_from = settings.EMAIL_HOST_USER 
-            send_mail( subject, message, email_from, recipient_list)
+            try:
+                send_mail( subject, message, email_from, recipient_list)
+            except SMTPException as e:
+                print('There was an error sending an email: ', e) 
+
+            
             return redirect("orders")
         else:
             template_name="unavailableProduct.html"
@@ -299,7 +322,11 @@ def buyCalculator(request):
             subject = 'Calculator bought '+str(calc1.calculatorId)
             message = 'Buyer email -'+customer.email+'\n Seller email -'+ calc1.seller.email+'\n Calculator id -'+str(calc1.calculatorId)
             email_from = settings.EMAIL_HOST_USER 
-            send_mail( subject, message, email_from, recipient_list)
+            try:
+                send_mail( subject, message, email_from, recipient_list)
+            except SMTPException as e:
+                print('There was an error sending an email: ', e) 
+            
             return redirect("orders")
         else:
             template_name="unavailableProduct.html"
@@ -316,7 +343,11 @@ def buyTool(request):
         subject = 'Toolkit bought'
         message = 'Buyer email -'+ customer.email
         email_from = settings.EMAIL_HOST_USER 
-        send_mail( subject, message, email_from, recipient_list)
+        try:
+            send_mail( subject, message, email_from, recipient_list)
+        except SMTPException as e:
+            print('There was an error sending an email: ', e) 
+        
         return redirect("orders")
 
 
@@ -372,7 +403,11 @@ def sellBook(request):
         subject = 'New book to verify '+str(book_obj.bookName)
         message = 'Book ' + str(book_obj.bookName) + ' has come for verification. \nBook seller -'+book_obj.seller.email+' \nBook id- ' + str(book_obj.bookId)
         email_from = settings.EMAIL_HOST_USER 
-        send_mail(subject, message, email_from, recipient_list)
+        try:
+            send_mail(subject, message, email_from, recipient_list)
+        except SMTPException as e:
+            print('There was an error sending an email: ', e) 
+        
     return redirect("advertisements")
 
 @login_required(login_url="login")
@@ -511,7 +546,11 @@ def completedBook(request,bookId,person):
         subject = 'Book '+str(book.bookName)+' was sold'
         message = 'Book ' + str(book.bookName) + ' sold. Seller was ' + book.seller.email +' the buyer was '+ Order_Book.objects.get(book=book).customer.email
         email_from = settings.EMAIL_HOST_USER 
-        send_mail( subject, message, email_from, recipient_list )
+        try:
+            send_mail( subject, message, email_from, recipient_list )
+        except SMTPException as e:
+            print('There was an error sending an email: ', e) 
+        
     return redirect(page)
 
 @login_required(login_url="login")
