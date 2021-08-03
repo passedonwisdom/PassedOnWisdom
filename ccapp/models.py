@@ -52,12 +52,12 @@ import uuid
 def upload_location(instance, filename):
     ts = uuid.uuid4()
     filebase, extension = filename.split('.')
-    return '%s.%s' % (filebase+str(ts), extension)
+    return 'images/book/%s.%s' % (filebase+str(ts), extension)
 
 class Book(models.Model):
     seller=models.ForeignKey(Student,on_delete=models.CASCADE,related_name="books")
     bookId = models.AutoField(primary_key=True)
-    bookImage=models.ImageField(upload_to=upload_location,null=True,blank=True,default="defaultBook.jpg")
+    bookImage=models.ImageField(upload_to=upload_location,null=True,blank=True,default="images/book/defaultBook.jpg")
     bookName=models.CharField(max_length=255)
     author=models.CharField(max_length=255)
     price=models.DecimalField(max_digits=6,decimal_places=2)
