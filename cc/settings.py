@@ -175,8 +175,8 @@ MEDIA_URL='/media/'
 #     os.path.join(BASE_DIR,'key/passedonfinal-d2f9878cce41.json'))
 
 DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
-AZURE_ACCOUNT_NAME = "passedonwisdom"
-AZURE_ACCOUNT_KEY = "dtDUG8tsJi5OhHBmyla5MbmTQmgcCPvmkOhAfr7mN+7f+RxGLaQFS1RIEFOGysOVAL3jZ4yqJx+I4xXfEGE9LA=="
+AZURE_ACCOUNT_NAME = os.environ.get('AZURE_ACCOUNT_NAME')
+AZURE_ACCOUNT_KEY = os.environ.get('AZURE_ACCOUNT_KEY')
 AZURE_CONTAINER = "passedon"
 AZURE_URL_EXPIRATION_SECS = 2344444
 
