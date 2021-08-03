@@ -25,7 +25,7 @@ SECRET_KEY = '-(aj!gv6h(x*d27$(ss&5v8&i&^6ze0m*ozllibrpiplo98)ee'
 # SECRET_KEY=os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['passedonwisdom.herokuapp.com','127.0.0.1']
 
@@ -157,22 +157,29 @@ MEDIA_URL='/media/'
 # temp google cloud 
 
 # DEFAULT_FILE_STORAGE='ccapp.gCloud.GoogleCloudMediaFileStorage'
-DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
-GS_PROJECT_ID = 'passedon'
-GS_BUCKET_NAME = 'passedon3'
-MEDIA_ROOT = "media/"
-# MEDIA_URL = 'https://storage.googleapis.com/{}/'.format(GS_BUCKET_NAME)
+# DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+# GS_PROJECT_ID = 'passedon'
+# GS_BUCKET_NAME = 'passedon3'
+# MEDIA_ROOT = "media/"
+# # MEDIA_URL = 'https://storage.googleapis.com/{}/'.format(GS_BUCKET_NAME)
 
 
-from google.oauth2 import service_account
-credentials_raw = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
-if credentials_raw:
-    service_account_info = json.loads(credentials_raw)
-    GS_CREDENTIALS=service_account.Credentials.from_service_account_info(
-        service_account_info)
-else:
-    GS_CREDENTIALS=service_account.Credentials.from_service_account_file(
-    os.path.join(BASE_DIR,'key/passedonfinal-d2f9878cce41.json'))
+# from google.oauth2 import service_account
+# credentials_raw = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
+# if credentials_raw:
+#     service_account_info = json.loads(credentials_raw)
+#     GS_CREDENTIALS=service_account.Credentials.from_service_account_info(
+#         service_account_info)
+# else:
+#     GS_CREDENTIALS=service_account.Credentials.from_service_account_file(
+#     os.path.join(BASE_DIR,'key/passedonfinal-d2f9878cce41.json'))
+
+DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
+AZURE_ACCOUNT_NAME = "passedonwisdom"
+AZURE_ACCOUNT_KEY = "dtDUG8tsJi5OhHBmyla5MbmTQmgcCPvmkOhAfr7mN+7f+RxGLaQFS1RIEFOGysOVAL3jZ4yqJx+I4xXfEGE9LA=="
+AZURE_CONTAINER = "passedon"
+AZURE_URL_EXPIRATION_SECS = 2344444
+
 
 
 # from django.conf import settings
