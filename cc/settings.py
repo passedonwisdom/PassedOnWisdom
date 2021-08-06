@@ -181,6 +181,18 @@ AZURE_CONTAINER = "passedon"
 AZURE_URL_EXPIRATION_SECS = 2344444
 
 
+credentials_raw = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
+if AZURE_ACCOUNT_NAME:
+    AZURE_CONTAINER = "passedon"
+else:
+    key_file = open(os.path.join(BASE_DIR,'key/key.json'),)
+    key = json.load(key_file)
+    AZURE_ACCOUNT_KEY = key["AZURE_ACCOUNT_KEY"]
+    AZURE_ACCOUNT_NAME = key["AZURE_ACCOUNT_NAME"]
+    print(AZURE_ACCOUNT_NAME)
+
+
+
 
 # from django.conf import settings
 # from storages.backends.gcloud import GoogleCloudStorage
