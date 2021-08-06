@@ -76,7 +76,11 @@
     {% for adsuit in suits %}       
     <div class="inner" id="suitDiv">
         <span class="type">Boiler Suit</span>
-        <span class="price">Rs. 300</span><br><br><br>
+        {% if adsuit.gender == 'Male' %}
+            <span class="price">Rs. 250</span><br><br><br>
+        {% else %}
+            <span class="price">Rs. 200</span><br><br><br>
+        {% endif %}
         <span class="others">Variant - {{adsuit.gender}}</span><br><br>
         <span class="others">Size - {{adsuit.size}}</span><br><br>
         <span class="description">{{adsuit.description}}</span><br><br>
@@ -122,7 +126,7 @@
     {% for adcoat in coats %} 
     <div class="inner" id="coatDiv">
         <span class="type">Lab Coat</span>
-        <span class="price">Rs. 180</span><br><br><br><br>
+        <span class="price">Rs. 130</span><br><br><br><br>
         <span class="others">Size - {{adcoat.size}}</span><br><br><br>
         <span class="description">{{adcoat.description}}</span><br><br>
         <span class="date">Posted On: {{adcoat.timestamp}}</span><br><br>
@@ -168,7 +172,7 @@
     {% for adcalc in calculators %} 
     <div class="inner" id="calculatorDiv">
         <span class="type">Calculator</span>
-        <span class="price">Rs. 700</span><br><br><br><br>
+        <span class="price">Rs. 550</span><br><br><br><br>
         <span class="others">Model: Casio FX-991 ES Plus</span><br><br><br>
         <span class="description">{{adcalc.description}}</span><br><br>
         <span class="date">Posted On: {{adcalc.timestamp}}</span><br><br>
